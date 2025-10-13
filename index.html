@@ -11,20 +11,18 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* slate-50 */
+            background-color: #f8fafc;
         }
-
-        /* --- Alteração: CSS do banner movido para cá --- */
         .banner {
             background: linear-gradient(90deg, #0077b6, #00b4d8);
             color: #fff;
             text-align: center;
-            padding: 2rem 1.25rem; /* Ajustei o padding para ficar melhor em telas menores */
+            padding: 2rem 1.25rem;
             box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
-            font-family: 'Inter', sans-serif; /* Mantendo a consistência da fonte */
+            font-family: 'Inter', sans-serif;
         }
         .banner h1 {
-            font-size: 1.75em; /* Ajustei o tamanho da fonte */
+            font-size: 1.75em;
             font-weight: 700;
             margin-bottom: 0.5rem;
         }
@@ -38,22 +36,20 @@
             opacity: 0.9;
             font-style: italic;
         }
-        /* --- Fim do CSS do banner --- */
-
         .sidebar-link {
             display: flex;
             align-items: center;
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
             transition: background-color 0.2s, color 0.2s;
-            color: #334155; /* slate-700 */
+            color: #334155;
             font-weight: 500;
         }
         .sidebar-link:hover {
-            background-color: #e2e8f0; /* slate-200 */
+            background-color: #e2e8f0;
         }
         .sidebar-link.active {
-            background-color: #0f766e; /* teal-700 */
+            background-color: #0f766e;
             color: white;
             box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
@@ -63,7 +59,6 @@
         .content-section {
             display: none;
         }
-        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -72,7 +67,6 @@
             display: block;
             animation: fadeIn 0.4s ease-in-out;
         }
-
         .step-indicator {
             display: flex;
             align-items: center;
@@ -118,7 +112,6 @@
 </head>
 <body>
     <div class="flex flex-col h-screen bg-slate-50 text-slate-800">
-
         <header class="banner">
             <h1>👋 Bem-vindo(a) ao Portal da Recepção!</h1>
             <p>Seu espaço de integração e pesquisa diária 🚀</p>
@@ -146,20 +139,157 @@
                     <a href="#" class="sidebar-link" data-target="matriculas" role="tab" aria-selected="false" aria-controls="matriculas">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg> Matrículas
                     </a>
-                    </nav>
+                    <a href="#" class="sidebar-link" data-target="emails" role="tab" aria-selected="false" aria-controls="emails">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> E-mails
+                    </a>
+                    <a href="#" class="sidebar-link" data-target="recebimentos" role="tab" aria-selected="false" aria-controls="recebimentos">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" /></svg> Recebimentos
+                    </a>
+                    <a href="#" class="sidebar-link" data-target="planilhas" role="tab" aria-selected="false" aria-controls="planilhas">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg> Planilhas
+                    </a>
+                    <a href="#" class="sidebar-link" data-target="sistema" role="tab" aria-selected="false" aria-controls="sistema">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> Sistema e Grupos
+                    </a>
+                     <a href="#" class="sidebar-link" data-target="agendamentos" role="tab" aria-selected="false" aria-controls="agendamentos">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> Agendamentos
+                    </a>
+                </nav>
             </aside>
 
             <main class="flex-1 p-6 lg:p-8 overflow-y-auto">
                 <section id="inicio" class="content-section active" role="tabpanel" tabindex="0">
-                    </section>
+                    <h1 class="text-4xl font-bold text-slate-800 mb-2">Guia Interativo da Recepção!</h1>
+                    <p class="text-lg text-slate-600 mb-8">Esta ferramenta foi criada para simplificar seu dia a dia. Use o menu à esquerda para navegar pelos processos e encontrar rapidamente as informações que precisa.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                            <h3 class="font-bold text-teal-700 text-lg mb-2">Nosso Objetivo</h3>
+                            <p class="text-slate-600">Garantir um atendimento de excelência, padronizando nossos processos para oferecer a melhor experiência aos munícipes de Barueri.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                            <h3 class="font-bold text-teal-700 text-lg mb-2">Como Usar</h3>
+                            <p class="text-slate-600">Cada seção contém guias passo a passo, modelos de comunicação e checklists para as tarefas mais comuns da recepção.</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                            <h3 class="font-bold text-teal-700 text-lg mb-2">Contato Rápido</h3>
+                            <p class="text-slate-600 font-semibold">CCPL Abade Gonzaga</p>
+                            <p class="text-slate-600">WhatsApp: (11) 4382-4684</p>
+                        </div>
+                    </div>
+                </section>
+
                 <section id="matriculas" class="content-section" role="tabpanel" tabindex="0">
                     </section>
-                </main>
+                
+                <section id="emails" class="content-section" role="tabpanel" tabindex="0">
+                    </section>
+
+                <section id="recebimentos" class="content-section" role="tabpanel" tabindex="0">
+                    </section>
+
+                <section id="planilhas" class="content-section" role="tabpanel" tabindex="0">
+                    </section>
+                
+                <section id="sistema" class="content-section" role="tabpanel" tabindex="0">
+                    <h1 class="text-3xl font-bold mb-6">Sistema e Grupos de WhatsApp</h1>
+                    <p class="text-slate-600 mb-8">O sistema online e os grupos de WhatsApp são as principais plataformas para gestão de turmas e comunicação com os alunos.</p>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                            <h2 class="text-2xl font-semibold mb-4 text-teal-800">Gestão no Sistema</h2>
+                            <ul class="space-y-4">
+                                <li>
+                                    <h4 class="font-semibold">Inclusão de Aluno em Turma</h4>
+                                    <p class="text-slate-600">Vá em `Turmas > Relatório de Turmas`, acesse o link da turma e use a opção "Adicionar usuário pelo código".</p>
+                                </li>
+                                <li>
+                                    <h4 class="font-semibold">Registro de Presença</h4>
+                                    <p class="text-slate-600">Na página da turma, clique no `+ verde` para adicionar a data e marque a presença, falta ou afastamento de cada aluno, conforme a lista física.</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
+                            <h2 class="text-2xl font-semibold mb-4 text-teal-800">Criação de Grupos de WhatsApp</h2>
+                            <ul class="space-y-4">
+                                <li>
+                                    <h4 class="font-semibold">Nomenclatura Padrão</h4>
+                                    <p class="text-slate-600">`[CÓDIGO DA TURMA]_[NOME DA TURMA]_JF`</p>
+                                </li>
+                                <li>
+                                    <h4 class="font-semibold">Configurações Essenciais</h4>
+                                    <p class="text-slate-600">Use a foto padrão do CCPL, desative mensagens temporárias e configure para que apenas administradores possam enviar mensagens. Adicione o professor como administrador.</p>
+                                </li>
+                                <li>
+                                    <h4 class="font-semibold">Mensagem de Boas-Vindas Padrão</h4>
+                                    <p class="text-slate-600">Use o texto padrão para dar as boas-vindas aos alunos no novo grupo.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="agendamentos" class="content-section" role="tabpanel" tabindex="0">
+                    </section>
+            </main>
         </div>
     </div>
 
     <script>
-        // Seu JavaScript permanece o mesmo
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('.sidebar-link');
+            const sections = document.querySelectorAll('.content-section');
+            
+            function switchContent(targetId) {
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                links.forEach(link => {
+                    link.classList.remove('active');
+                    link.setAttribute('aria-selected', 'false');
+                });
+
+                const targetSection = document.getElementById(targetId);
+                const targetLink = document.querySelector(`.sidebar-link[data-target="${targetId}"]`);
+                
+                targetSection.classList.add('active');
+                targetLink.classList.add('active');
+                targetLink.setAttribute('aria-selected', 'true');
+                targetSection.focus({ preventScroll: true }); // Foco sem rolar a página
+            }
+
+            links.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.dataset.target;
+                    switchContent(targetId);
+                });
+            });
+
+            const detailsElements = document.querySelectorAll('details');
+            detailsElements.forEach(details => {
+                const summary = details.querySelector('summary');
+                const arrow = summary.querySelector('svg');
+                details.addEventListener('toggle', () => {
+                    if (arrow) {
+                        arrow.style.transform = details.open ? 'rotate(180deg)' : 'rotate(0deg)';
+                    }
+                });
+            });
+        });
+        
+        function copyToClipboard(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const button = event.target;
+                const originalText = button.innerText;
+                button.innerText = 'Copiado!';
+                setTimeout(() => {
+                    button.innerText = originalText;
+                }, 1500);
+            }).catch(err => {
+                console.error('Erro ao copiar texto: ', err);
+            });
+        }
     </script>
 </body>
 </html>
