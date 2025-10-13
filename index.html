@@ -39,12 +39,15 @@
         .sidebar-link {
             display: flex;
             align-items: center;
-            width: 100%; /* Garante que o link ocupe todo o espaço */
+            width: 100%;
             padding: 0.75rem 1rem;
             border-radius: 0.5rem;
             transition: background-color 0.2s, color 0.2s;
             color: #334155;
             font-weight: 500;
+            text-align: left;
+            background: none;
+            border: none;
         }
         .sidebar-link:hover {
             background-color: #e2e8f0;
@@ -58,7 +61,6 @@
             margin-right: 0.75rem;
         }
         
-        /* --- Alteração: Estilos para o novo menu sanfona --- */
         .sidebar-parent-link {
             display: flex;
             justify-content: space-between;
@@ -69,10 +71,10 @@
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-in-out;
-            padding-left: 1.5rem; /* Indentação para os sub-itens */
+            padding-left: 1.5rem;
         }
         .sidebar-submenu.open {
-            max-height: 500px; /* Altura suficiente para mostrar todos os itens */
+            max-height: 500px;
         }
         .arrow-icon {
             transition: transform 0.3s;
@@ -81,7 +83,6 @@
         .sidebar-parent-link.open .arrow-icon {
             transform: rotate(180deg);
         }
-        /* --- Fim da alteração --- */
 
         .content-section { display: none; }
         @keyframes fadeIn {
@@ -92,11 +93,12 @@
             display: block;
             animation: fadeIn 0.4s ease-in-out;
         }
-        /* ... (demais estilos permanecem os mesmos) ... */
-        .step-indicator, .step-line, .copy-btn, details > summary {
-            /* Estilos omitidos para brevidade, mas devem ser mantidos como estavam */
-        }
-
+        .step-indicator { display: flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; border-radius: 9999px; background-color: #f1f5f9; color: #0f766e; font-weight: 700; border: 2px solid #99f6e4; flex-shrink: 0; }
+        .step-line { width: 2px; background-color: #cbd5e1; flex-grow: 1; }
+        .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background-color: #f1f5f9; color: #475569; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s; }
+        .copy-btn:hover { background-color: #e2e8f0; }
+        details > summary { cursor: pointer; list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
     </style>
 </head>
 <body>
@@ -120,12 +122,10 @@
                         <p class="text-xs text-slate-500">Guia da Recepção</p>
                     </div>
                 </div>
-
                 <nav class="space-y-1">
                     <a href="#" class="sidebar-link active" data-target="inicio">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> Início
                     </a>
-
                     <div>
                         <button class="sidebar-link sidebar-parent-link" data-submenu="atendimentos-submenu">
                             <span class="flex items-center">
@@ -135,21 +135,12 @@
                             <svg class="h-5 w-5 arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                         </button>
                         <div id="atendimentos-submenu" class="sidebar-submenu">
-                             <a href="#" class="sidebar-link" data-target="matriculas">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg> Matrículas
-                            </a>
-                             <a href="#" class="sidebar-link" data-target="emails">
-                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> E-mails
-                            </a>
-                            <a href="#" class="sidebar-link" data-target="recebimentos">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" /></svg> Recebimentos
-                            </a>
-                             <a href="#" class="sidebar-link" data-target="agendamentos">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 opacity-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg> Agendamentos
-                            </a>
+                             <a href="#" class="sidebar-link" data-target="matriculas">Matrículas</a>
+                             <a href="#" class="sidebar-link" data-target="emails">E-mails</a>
+                             <a href="#" class="sidebar-link" data-target="recebimentos">Recebimentos</a>
+                             <a href="#" class="sidebar-link" data-target="agendamentos">Agendamentos</a>
                         </div>
                     </div>
-                    
                     <a href="#" class="sidebar-link" data-target="planilhas">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg> Planilhas
                     </a>
@@ -157,22 +148,71 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> Sistema e Grupos
                     </a>
                 </nav>
-                </aside>
-
+            </aside>
             <main class="flex-1 p-6 lg:p-8 overflow-y-auto">
                 <section id="inicio" class="content-section active" role="tabpanel" tabindex="0">
-                     </section>
+                    <h1 class="text-4xl font-bold text-slate-800 mb-2">Guia Interativo da Recepção!</h1>
+                    <p class="text-lg text-slate-600 mb-8">Esta ferramenta foi criada para simplificar seu dia a dia. Use o menu à esquerda para navegar pelos processos e encontrar rapidamente as informações que precisa.</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-bold text-teal-700 text-lg mb-2">Nosso Objetivo</h3><p class="text-slate-600">Garantir um atendimento de excelência, padronizando nossos processos para oferecer a melhor experiência aos munícipes de Barueri.</p></div>
+                        <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-bold text-teal-700 text-lg mb-2">Como Usar</h3><p class="text-slate-600">Cada seção contém guias passo a passo, modelos de comunicação e checklists para as tarefas mais comuns da recepção.</p></div>
+                        <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-bold text-teal-700 text-lg mb-2">Contato Rápido</h3><p class="text-slate-600 font-semibold">CCPL Abade Gonzaga</p><p class="text-slate-600">WhatsApp: (11) 4382-4684</p></div>
+                    </div>
+                </section>
                 <section id="matriculas" class="content-section" role="tabpanel" tabindex="0">
-                     </section>
-                </main>
+                    <h1 class="text-3xl font-bold mb-6">Processo de Matrícula</h1><p class="text-slate-600 mb-6">A matrícula é o primeiro e mais importante contato do munícipe com o CCPL. Este guia detalha os fluxos para matrículas presenciais e online, garantindo que toda a documentação e registro no sistema sejam feitos corretamente.</p><div class="flex flex-col md:flex-row gap-8"><div class="w-full md:w-1/3"><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-semibold text-lg mb-4 text-teal-800">Documentos Obrigatórios</h3><ul class="space-y-3 text-slate-600"><li class="flex items-start"><span class="mr-2 mt-1 text-teal-600">✔</span> Foto 3x4</li><li class="flex items-start"><span class="mr-2 mt-1 text-teal-600">✔</span> Comprovante de residência (emitido em um dos os últimos 3 meses)</li><li class="flex items-start"><span class="mr-2 mt-1 text-teal-600">✔</span> Cópia do RG/CPF do aluno (e cópia do RG/CPF do responsável, se o aluno for menor de 18 anos)</li><li class="flex items-start"><span class="mr-2 mt-1 text-teal-600">✔</span> Ser residente de Barueri</li><li class="flex items-start"><span class="mr-2 mt-1 text-teal-600">✔</span> Atestado Médico (Zumba e Danças e Ritmos) ou Comprovante de Agendamento (Ballet, Dança do Ventre, Circo, Street Dance e Dança de Salão)</li></ul></div></div><div class="w-full md:w-2/3"><h2 class="text-2xl font-semibold mb-4">Passo a Passo: Matrícula Online (WhatsApp)</h2><div class="space-y-6"><div class="flex"><div class="flex flex-col items-center mr-4"><div class="step-indicator">1</div><div class="step-line h-full"></div></div><div><h4 class="font-bold text-lg">Solicitação de Documentos e Anamnese</h4><p class="text-slate-600">Envie a mensagem padrão solicitando os documentos e a ficha de anamnese. O munícipe deve responder o questionário por completo.</p></div></div><div class="flex"><div class="flex flex-col items-center mr-4"><div class="step-indicator">2</div><div class="step-line h-full"></div></div><div><h4 class="font-bold text-lg">Envio do Termo de Adesão</h4><p class="text-slate-600">Após receber os dados, envie a mensagem com o Termo de Adesão. A confirmação deve ser um "OK" explícito. Guarde os prints da conversa.</p></div></div><div class="flex"><div class="flex flex-col items-center mr-4"><div class="step-indicator">3</div></div><div><h4 class="font-bold text-lg">Registro no Sistema e Validação</h4><p class="text-slate-600">Realize a matrícula no sistema, imprima a ficha e o "Modelo de Validação de Matrícula Online", anexando os prints da conversa. O processo é o mesmo da matrícula presencial a partir daqui.</p></div></div></div></div></div>
+                </section>
+                <section id="emails" class="content-section" role="tabpanel" tabindex="0">
+                    <h1 class="text-3xl font-bold mb-6">Padrões de Comunicação por E-mail</h1><p class="text-slate-600 mb-8">A comunicação por e-mail deve ser clara, profissional e padronizada para facilitar a rastreabilidade. Utilize os modelos abaixo para as situações mais comuns.</p><div class="grid grid-cols-1 lg:grid-cols-2 gap-6"><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-semibold text-lg mb-4 text-teal-800">Devolutiva SAU</h3><p class="text-sm text-slate-500 mb-2">Para: admgeral@..., consultorparaiso@..., etc.</p><div class="relative"><button class="copy-btn" onclick="copyToClipboard('devolutivaSauTemplate')">Copiar</button><pre id="devolutivaSauTemplate" class="bg-slate-100 p-4 rounded-md text-sm text-slate-700 overflow-x-auto">
+Título: DEVOLUTIVA_SAU_[NOME DO MUNICIPE]_[DATA]
+
+Corpo:
+[Detalhes do contato e resolução da solicitação]
+                                </pre></div></div><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-semibold text-lg mb-4 text-teal-800">Acompanhamento Pedagógico</h3><p class="text-sm text-slate-500 mb-2">Para: coordenacaogeral@..., consultorflorida@...</p><div class="relative"><button class="copy-btn" onclick="copyToClipboard('acompPedagogicoTemplate')">Copiar</button><pre id="acompPedagogicoTemplate" class="bg-slate-100 p-4 rounded-md text-sm text-slate-700 overflow-x-auto">
+Título: ACOMPANHAMENTO PEDAGÓGICO_CHECKLIST CONSULTORES_CCPL ABADE GONZAGA DOS SANTOS_[DATA]
+
+Corpo:
+[Detalhes da observação em aula, comparando conteúdo aplicado com o programático.]
+                                </pre></div></div><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-semibold text-lg mb-4 text-teal-800">Controle de Atrasos/Faltas de Professores</h3><p class="text-sm text-slate-500 mb-2">Para: coordenacaogeral@..., consultorflorida@...</p><div class="relative"><button class="copy-btn" onclick="copyToClipboard('controleAtrasoTemplate')">Copiar</button><pre id="controleAtrasoTemplate" class="bg-slate-100 p-4 rounded-md text-sm text-slate-700 overflow-x-auto">
+Título: CONTROLE DE AUSÊNCIA OU ATRASO DOS PROFESSORES_CHECKLIST..._[DATA]
+
+Corpo:
+Segue o controle de ausência ou atraso dos professores referente ao dia [DATA].
+
+MANHÃ:
+✔ [Nome Professor]: [Horário]
+❌ [Nome Professor]: [Horário] (Faltou)
+
+TARDE:
+...
+                                </pre></div></div><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-semibold text-lg mb-4 text-teal-800">Solicitação de PDA</h3><p class="text-sm text-slate-500 mb-2">Para: E-mail da unidade de origem do aluno</p><div class="relative"><button class="copy-btn" onclick="copyToClipboard('pdaTemplate')">Copiar</button><pre id="pdaTemplate" class="bg-slate-100 p-4 rounded-md text-sm text-slate-700 overflow-x-auto">
+Título: SOLICITAÇÃO DE PDA: #[COD. DO ALUNO]_[NOME DO ALUNO]
+
+Corpo:
+Bom dia, tudo bem?
+Peço que por gentileza enviem o PDA #[COD. DO ALUNO] para realizar cursos nesta unidade.
+Att,
+                                </pre></div></div></div>
+                </section>
+                <section id="recebimentos" class="content-section" role="tabpanel" tabindex="0">
+                    <h1 class="text-3xl font-bold mb-6">Recebimento de Materiais</h1><p class="text-slate-600 mb-8">O controle de recebimento de materiais é crucial para a gestão de estoque e financeira. Siga este fluxo para todos os tipos de entrega.</p><div class="bg-white rounded-lg border border-slate-200 shadow-sm p-6"><h2 class="text-2xl font-semibold mb-4 text-teal-800">Fluxo Padrão de Recebimento</h2><ol class="list-decimal list-inside space-y-4 text-slate-700"><li><span class="font-semibold">Conferir os itens</span> junto ao entregador, especialmente para Hortifruti e Açougue.</li><li><span class="font-semibold">Assinar e carimbar</span> ambas as vias do documento de entrega (romaneio/nota). Uma via fica com o entregador, a outra com o CCPL.</li><li><span class="font-semibold">Escanear a via do CCPL.</span> Utilize o padrão da máquina e salve o PDF.</li><li><span class="font-semibold">Renomear o arquivo</span> seguindo a nomenclatura padrão. Ex: `ROMANEIO DE ENTREGA HORTIFRUTI_JARDIM FLÓRIDA_13.01.2025`.</li><li><span class="font-semibold">Enviar por e-mail</span> para o setor responsável (Coordenação, Nutricionista ou Financeiro).</li><li><span class="font-semibold">Arquivar o documento físico</span> no local correto: pasta da Coordenação ou envelope do Financeiro.</li></ol></div>
+                </section>
+                <section id="planilhas" class="content-section" role="tabpanel" tabindex="0">
+                    <h1 class="text-3xl font-bold mb-6">Gerenciamento de Planilhas</h1><p class="text-slate-600 mb-8">As planilhas são nossas ferramentas centrais de controle. Mantê-las atualizadas é uma prioridade. A primeira ação é sempre atualizar o Banco de Dados (BD).</p><div class="space-y-4"><details class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm"><summary class="flex justify-between items-center font-semibold text-lg">Planilha AZ (Controle de Fichas)<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></summary><div class="mt-4 text-slate-600"><p class="font-semibold">Objetivo:</p><p class="mb-2">Controlar as fichas físicas de matrícula em ordem alfabética.</p><p class="font-semibold">Processo de Atualização:</p><ol class="list-decimal list-inside ml-4"><li><strong>Atualizar BD:</strong> Baixar os dados mais recentes do sistema e colar na aba "BD" da planilha.</li><li><strong>Incluir Ficha:</strong> Adicionar o código do novo aluno e preencher manually os status dos documentos.</li><li><strong>Salvar:</strong> Clicar em "Preservar Histórico" e salvar.</li><li><strong>Anotar:</strong> Anotar o número AZ gerado na ficha física (a lápis) e no cadastro do aluno no sistema.</li></ol></div></details><details class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm"><summary class="flex justify-between items-center font-semibold text-lg">Planilha de Lista de Presença<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></summary><div class="mt-4 text-slate-600"><p class="font-semibold">Objetivo:</p><p class="mb-2">Registrar a frequência dos alunos nas aulas.</p><p class="font-semibold">Processo de Atualização:</p><ol class="list-decimal list-inside ml-4"><li><strong>Atualizar BD:</strong> Sempre comece atualizando o banco de dados.</li><li><strong>Incluir Aluno:</strong> Adicione o código do aluno na lista da turma correspondente e defina o status como "Ativo".</li><li><strong>Registrar Presença:</strong> Marque com "C" maiúsculo no dia da aula.</li><li><strong>Justificar Falta:</strong> Utilize a coluna "Observações" para inserir justificativas de ausência.</li></ol></div></details></div>
+                </section>
+                <section id="sistema" class="content-section" role="tabpanel" tabindex="0">
+                    <h1 class="text-3xl font-bold mb-6">Sistema e Grupos de WhatsApp</h1><p class="text-slate-600 mb-8">O sistema online e os grupos de WhatsApp são as principais plataformas para gestão de turmas e comunicação com os alunos.</p><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h2 class="text-2xl font-semibold mb-4 text-teal-800">Gestão no Sistema</h2><ul class="space-y-4"><li><h4 class="font-semibold">Inclusão de Aluno em Turma</h4><p class="text-slate-600">Vá em `Turmas > Relatório de Turmas`, acesse o link da turma e use a opção "Adicionar usuário pelo código".</p></li><li><h4 class="font-semibold">Registro de Presença</h4><p class="text-slate-600">Na página da turma, clique no `+ verde` para adicionar a data e marque a presença, falta ou afastamento de cada aluno, conforme a lista física.</p></li></ul></div><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h2 class="text-2xl font-semibold mb-4 text-teal-800">Criação de Grupos de WhatsApp</h2><ul class="space-y-4"><li><h4 class="font-semibold">Nomenclatura Padrão</h4><p class="text-slate-600">`[CÓDIGO DA TURMA]_[NOME DA TURMA]_JF`</p></li><li><h4 class="font-semibold">Configurações Essenciais</h4><p class="text-slate-600">Use a foto padrão do CCPL, desative mensagens temporárias e configure para que apenas administradores possam enviar mensagens. Adicione o professor como administrador.</p></li><li><h4 class="font-semibold">Mensagem de Boas-Vindas Padrão</h4><p class="text-slate-600">Use o texto padrão para dar as boas-vindas aos alunos no novo grupo.</p></li></ul></div></div>
+                </section>
+                <section id="agendamentos" class="content-section" role="tabpanel" tabindex="0">
+                    <h1 class="text-3xl font-bold mb-6">Agendamentos Especiais</h1><p class="text-slate-600 mb-8">Gerenciamos agendamentos para a equipe psicossocial e para avaliações de bioimpedância através da Agenda Google, com procedimentos específicos para cada um.</p><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h2 class="text-2xl font-semibold mb-4 text-teal-800">Agendamento Psicossocial</h2><ul class="space-y-4 text-slate-600"><li><strong class="text-slate-800">Regra Principal:</strong> Não agendar buscas espontâneas nas quintas-feiras. O atendimento é pessoal e intransferível.</li><li><strong class="text-slate-800">Agenda Google:</strong> Crie o evento com a nomenclatura `COD/NOME/TELEFONE/MOTIVO/FUNCIONÁRIO` e altere a cor para a correta.</li><li><strong class="text-slate-800">Sistema:</strong> Abra uma ocorrência no sistema para o aluno, selecionando "Recepção" e definindo a data final como o dia da consulta.</li></ul></div><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h2 class="text-2xl font-semibold mb-4 text-teal-800">Agendamento de Bioimpedância</h2><ul class="space-y-4 text-slate-600"><li><strong class="text-slate-800">Regras Principais:</strong> Não agendar menores de 14 anos ou munícipes com mais de 3 faltas anteriores.</li><li><strong class="text-slate-800">Confirmação:</strong> Envie a mensagem padrão de confirmação com 1 dia de antecedência, incluindo as orientações de preparo.</li><li><strong class="text-slate-800">Pós-Consulta:</strong> Baixe a ficha de avaliação do Google Drive e envie para o munícipe via WhatsApp.</li></ul></div></div>
+                </section>
+            </main>
         </div>
     </div>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const links = document.querySelectorAll('.sidebar-link');
             const sections = document.querySelectorAll('.content-section');
-            // --- Alteração: Selecionando os novos elementos do menu sanfona ---
             const parentLinks = document.querySelectorAll('.sidebar-parent-link');
 
             function switchContent(targetId) {
@@ -186,8 +226,6 @@
                     targetSection.classList.add('active');
                     targetLink.classList.add('active');
                     targetSection.focus({ preventScroll: true });
-
-                    // --- Alteração: Garante que o menu pai fique aberto ao clicar no filho ---
                     const parentSubmenu = targetLink.closest('.sidebar-submenu');
                     if (parentSubmenu) {
                         parentSubmenu.classList.add('open');
@@ -198,17 +236,22 @@
             }
 
             links.forEach(link => {
-                // Adiciona o evento apenas se NÃO for um link pai
                 if (!link.classList.contains('sidebar-parent-link')) {
                     link.addEventListener('click', function(e) {
                         e.preventDefault();
                         const targetId = this.dataset.target;
+                        // Fecha outros menus pai abertos
+                        parentLinks.forEach(p => {
+                            if(p !== this.closest('.sidebar-group')?.querySelector('.sidebar-parent-link')) {
+                                p.classList.remove('open');
+                                document.getElementById(p.dataset.submenu).classList.remove('open');
+                            }
+                        });
                         switchContent(targetId);
                     });
                 }
             });
 
-            // --- Alteração: Lógica para abrir e fechar o submenu ---
             parentLinks.forEach(parent => {
                 parent.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -217,12 +260,15 @@
                     document.getElementById(submenuId).classList.toggle('open');
                 });
             });
-
-            // Lógica dos 'details' (se ainda houver algum no conteúdo) permanece a mesma
         });
-        
         function copyToClipboard(elementId) {
-            // Função de copiar permanece a mesma
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const button = event.target;
+                const originalText = button.innerText;
+                button.innerText = 'Copiado!';
+                setTimeout(() => { button.innerText = originalText; }, 1500);
+            }).catch(err => { console.error('Erro ao copiar texto: ', err); });
         }
     </script>
 </body>
