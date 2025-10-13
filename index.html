@@ -87,11 +87,13 @@
     </style>
 </head>
 <body>
+
     
-    <!-- Banner de Boas-Vindas -->
+   <!-- Banner de Boas-Vindas -->
 <div class="banner">
   <h1>👋 Bem-vindo(a) ao Portal Sempre Vita!</h1>
   <p>Seu espaço de integração e pesquisa diária 🚀</p>
+  <p class="creditos">Desenvolvido por <strong>Renan Vieira</strong></p>
 </div>
 
 <style>
@@ -99,7 +101,7 @@
     background: linear-gradient(90deg, #0077b6, #00b4d8);
     color: #fff;
     text-align: center;
-    padding: 40px 20px;
+    padding: 40px 20px 30px 20px;
     border-radius: 0 0 20px 20px;
     box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
     font-family: Arial, sans-serif;
@@ -112,10 +114,18 @@
 
   .banner p {
     font-size: 1.2em;
-    margin: 0;
+    margin: 5px 0;
+  }
+
+  .banner .creditos {
+    font-size: 0.9em;
+    margin-top: 10px;
+    opacity: 0.9;
+    font-style: italic;
   }
 </style>
 
+    
     <div class="flex h-screen bg-slate-50 text-slate-800">
         <!-- Sidebar -->
         <aside id="sidebar" class="w-64 bg-white p-4 space-y-2 border-r border-slate-200 flex-shrink-0 overflow-y-auto">
