@@ -3,345 +3,964 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Guia Interativo: Processos da Recepção - CCPL Abade Gonzaga</title>
+    <title>Guia Prático da Recepção</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8fafc;
+            box-sizing: border-box;
         }
-        .banner {
-            background: linear-gradient(90deg, #0077b6, #00b4d8);
-            color: #fff;
-            text-align: center;
-            padding: 1rem 1.25rem;
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
-            font-family: 'Inter', sans-serif;
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
         }
-        .banner h1 {
-            font-size: 1.75em;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .banner p {
-            font-size: 1.1em;
-            margin: 0;
+        .step-card {
+            transition: all 0.3s ease;
         }
-        .banner .creditos {
-            font-size: 0.8em;
-            margin-top: 0.75rem;
-            opacity: 0.9;
-            font-style: italic;
+        .step-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-        .sidebar-link {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            transition: background-color 0.2s, color 0.2s;
-            color: #334155;
-            font-weight: 500;
-            text-align: left;
-            background: none;
-            border: none;
+        .sidebar {
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
         }
-        .sidebar-link:hover {
-            background-color: #e2e8f0;
+        .sidebar.open {
+            transform: translateX(0);
         }
-        .sidebar-link.active {
-            background-color: #0f766e;
-            color: white;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        .menu-item {
+            transition: all 0.3s ease;
         }
-        .sidebar-link svg {
-            margin-right: 0.75rem;
+        .menu-item:hover {
+            background-color: rgba(99, 102, 241, 0.1);
+            transform: translateX(5px);
         }
-        
-        .sidebar-parent-link {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-        .sidebar-submenu {
+        .submenu {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease-in-out;
-            padding-left: 1.5rem;
         }
-        .sidebar-submenu.open {
+        .submenu.open {
             max-height: 500px;
         }
-        .arrow-icon {
-            transition: transform 0.3s;
-            flex-shrink: 0;
-        }
-        .sidebar-parent-link.open .arrow-icon {
-            transform: rotate(180deg);
-        }
-
-        .content-section { display: none; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .content-section.active {
-            display: block;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-        .step-indicator { display: flex; align-items: center; justify-content: center; width: 2.5rem; height: 2.5rem; border-radius: 9999px; background-color: #f1f5f9; color: #0f766e; font-weight: 700; border: 2px solid #99f6e4; flex-shrink: 0; }
-        .step-line { width: 2px; background-color: #cbd5e1; flex-grow: 1; }
-        .copy-btn { position: absolute; top: 0.5rem; right: 0.5rem; background-color: #f1f5f9; color: #475569; padding: 0.25rem 0.5rem; border-radius: 0.375rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s; }
-        .copy-btn:hover { background-color: #e2e8f0; }
-        details > summary { cursor: pointer; list-style: none; }
-        details > summary::-webkit-details-marker { display: none; }
     </style>
 </head>
-<body>
-    <div class="flex flex-col h-screen bg-slate-50 text-slate-800">
-        <header class="banner">
-            <h1>👋 Bem-vindo(a) ao Portal da Recepção!</h1>
-            <p>Seu espaço de integração e pesquisa diária 🚀</p>
-            <p class="creditos">Desenvolvido por <strong>Renan Vieira</strong></p>
-        </header>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-full">
+    <!-- Menu Button -->
+    <button id="menuToggle" class="fixed top-4 left-4 z-50 bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg shadow-lg transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
 
-        <div class="flex flex-1 min-h-0">
-            <aside id="sidebar" class="w-64 bg-white p-4 space-y-2 border-r border-slate-200 flex-shrink-0 overflow-y-auto">
-                <div class="flex items-center space-x-3 p-2 mb-4">
-                    <div class="p-2 bg-teal-600 rounded-lg">
-                       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v11.494m-9-5.747h18" />
-                       </svg>
-                    </div>
-                    <div>
-                        <h1 class="text-lg font-bold text-teal-800">CCPL JD Flórida</h1>
-                        <p class="text-xs text-slate-500">Guia da Recepção</p>
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar fixed top-0 left-0 w-80 h-full bg-white shadow-2xl z-40 overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-indigo-800">📋 Menu</h2>
+                <button id="closeSidebar" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Menu Items -->
+            <div class="space-y-2">
+                <!-- Atendimento -->
+                <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('atendimento')">
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-3">🎯</span>
+                        <span class="font-semibold" style="color: #10489E;">Atendimento</span>
                     </div>
                 </div>
-                <nav class="space-y-1">
-                    <a href="#" class="sidebar-link active" data-target="inicio">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg> Início
-                    </a>
-                    <div>
-                        <button class="sidebar-link sidebar-parent-link" data-submenu="atendimentos-submenu">
-                            <span class="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
-                                Atendimentos
-                            </span>
-                            <svg class="h-5 w-5 arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                        </button>
-                        <div id="atendimentos-submenu" class="sidebar-submenu">
-                             <a href="#" class="sidebar-link" data-target="matriculas">Matrículas</a>
-                             <a href="#" class="sidebar-link" data-target="emails">E-mails</a>
-                             <a href="#" class="sidebar-link" data-target="recebimentos">Recebimentos</a>
-                             <a href="#" class="sidebar-link" data-target="agendamentos">Agendamentos</a>
+
+                <!-- Matrícula -->
+                <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('matricula')">
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-3">📝</span>
+                        <span class="font-semibold" style="color: #2E8B57;">Matrícula</span>
+                    </div>
+                </div>
+
+                <!-- Recebimento de Materiais -->
+                <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('recebimento')">
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-3">📦</span>
+                        <span class="font-semibold" style="color: #FF6B35;">Recebimento de Materiais</span>
+                    </div>
+                </div>
+
+                <!-- Ofícios -->
+                <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('oficios')">
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-3">📋</span>
+                        <span class="font-semibold" style="color: #8E44AD;">Ofícios</span>
+                    </div>
+                </div>
+
+                <!-- E-mail -->
+                <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('email')">
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-3">📧</span>
+                        <span class="font-semibold" style="color: #E74C3C;">E-mail</span>
+                    </div>
+                </div>
+
+                <!-- Fluxograma de Atividades -->
+                <div class="menu-item">
+                    <div class="flex items-center justify-between p-3 cursor-pointer rounded-lg" onclick="toggleSubmenu('fluxograma')">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">📊</span>
+                            <span class="font-semibold" style="color: #53A80D;">Fluxograma de Atividades</span>
+                        </div>
+                        <svg id="arrow-fluxograma" class="w-5 h-5 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </div>
+                    <div id="submenu-fluxograma" class="submenu ml-6 space-y-1">
+                        <!-- Lista de Presença com submenus -->
+                        <div class="menu-item">
+                            <div class="flex items-center justify-between p-2 cursor-pointer rounded-lg" onclick="toggleSubmenu('listapresenca')">
+                                <div class="flex items-center">
+                                    <span class="text-lg mr-3">📋</span>
+                                    <span class="text-gray-700 text-sm">Lista de Presença</span>
+                                </div>
+                                <svg id="arrow-listapresenca" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </div>
+                            <div id="submenu-listapresenca" class="submenu ml-6 space-y-1">
+                                <div class="menu-item p-2 cursor-pointer rounded-lg" onclick="showGuide('atualizacao')">
+                                    <div class="flex items-center">
+                                        <span class="text-sm mr-2">🔄</span>
+                                        <span class="text-gray-600 text-sm">Atualização Mensal (Começo de mês)</span>
+                                    </div>
+                                </div>
+                                <div class="menu-item p-2 cursor-pointer rounded-lg" onclick="showGuide('fechamento')">
+                                    <div class="flex items-center">
+                                        <span class="text-sm mr-2">✅</span>
+                                        <span class="text-gray-600 text-sm">Fechamento Mensal</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('videoaulas')">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">🎥</span>
+                                <span class="text-gray-700">Videoaulas na Plataforma</span>
+                            </div>
+                        </div>
+                        <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('az')">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">🔤</span>
+                                <span class="text-gray-700">A-Z</span>
+                            </div>
+                        </div>
+                        <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('ativosinativos')">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">🔄</span>
+                                <span class="text-gray-700">Ativos e Inativos</span>
+                            </div>
+                        </div>
+                        <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('parceiros')">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">🤝</span>
+                                <span class="text-gray-700">Parceiros</span>
+                            </div>
                         </div>
                     </div>
-                    <a href="#" class="sidebar-link" data-target="planilhas">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg> Planilhas
-                    </a>
-                    <a href="#" class="sidebar-link" data-target="sistema">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg> Sistema e Grupos
-                    </a>
-                </nav>
-            </aside>
-            <main class="flex-1 p-6 lg:p-8 overflow-y-auto">
-                <section id="inicio" class="content-section active" role="tabpanel" tabindex="0">
-                    <h1 class="text-4xl font-bold text-slate-800 mb-2">Guia Interativo da Recepção!</h1>
-                    <p class="text-lg text-slate-600 mb-8">Esta ferramenta foi criada para simplificar seu dia a dia. Use o menu à esquerda para navegar pelos processos e encontrar rapidamente as informações que precisa.</p>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-bold text-teal-700 text-lg mb-2">Objetivo</h3><p class="text-slate-600">Garantir um atendimento de excelência, padronizando nossos processos para oferecer a melhor experiência aos munícipes de Barueri.</p></div>
-                        <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-bold text-teal-700 text-lg mb-2">Como Usar</h3><p class="text-slate-600">Cada seção contém guias passo a passo, modelos de comunicação e checklists para as tarefas mais comuns da recepção.</p></div>
-                        <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-bold text-teal-700 text-lg mb-2">Contato Rápido</h3><p class="text-slate-600 font-semibold">CCPL Abade Gonzaga dos Santos</p><p class="text-slate-600">WhatsApp: (11) 4382-8210</p></div>
+                </div>
+
+                <!-- Estratégias -->
+                <div class="menu-item">
+                    <div class="flex items-center justify-between p-3 cursor-pointer rounded-lg" onclick="toggleSubmenu('estrategias')">
+                        <div class="flex items-center">
+                            <span class="text-2xl mr-3">🎯</span>
+                            <span class="font-semibold" style="color: #98255D;">Estratégias</span>
+                        </div>
+                        <svg id="arrow-estrategias" class="w-5 h-5 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
                     </div>
-                </section>
-
-                <section id="matriculas" class="content-section" role="tabpanel" tabindex="0">
-    <h1 class="text-3xl font-bold text-slate-800 mb-4">Processo de Matrícula</h1>
-    <p class="text-lg text-slate-600 mb-8">
-        O processo de matrícula representa o primeiro e mais importante contato do munícipe com o CCPL. Um atendimento de excelência neste momento é fundamental não apenas para garantir que o processo ocorra de forma eficiente, mas também para estabelecer um relacionamento de confiança e acolhimento. A comunicação deve ser sempre formal, polida e humanizada, demonstrando a organização e o profissionalismo da nossa instituição e assegurando que o novo aluno se sinta bem-vindo e amparado desde o início de sua jornada conosco.
-    </p>
-
-        <div class="flex flex-col lg:flex-row gap-8">
-        <div class="w-full lg:w-1/3">
-            <div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
-                <h3 class="font-semibold text-xl mb-4 text-teal-800">Documentação Obrigatória</h3>
-                <ul class="space-y-3 text-slate-600">
-    <li class="flex items-start"><span class="mr-2 mt-1 text-teal-600">✔</span> 1 Foto 3x4.</li>
-    <li class="flex items-start"><span class="mr-2 mt-1 text-teal-600">✔</span> Cópia do RG e CPF do aluno.</li>
-    <li class="flex items-start"><span class="mr-2 mt-1 text-teal-600">✔</span> Cópia do RG e CPF do responsável legal (pai ou mãe), se o aluno for menor de 18 anos.</li>
-    <li class="flex items-start"><span class="mr-2 mt-1 text-teal-600">✔</span> Cópia de um Comprovante de Residência recente (emitido nos últimos 3 meses).</li>
-    <li class="flex items-start"><span class="mr-2 mt-1 text-teal-600">✔</span><span><strong>Atestado Médico</strong> (Zumba e Danças e Ritmos) ou <strong>Comprovante de Agendamento</strong> (Ballet, Dança do Ventre, Circo, Street Dance e Dança de Salão).</span></li>
-    <li class="flex items-start"><span class="mr-2 mt-1 text-teal-600">✔</span> Ser residente de Barueri.*</li>      
-            </ul>
-            </div>
-        </div>
-
-        <div class="w-full lg:w-2/3">
-            <div class="mb-8">
-                <h2 class="text-2xl font-bold mb-4">Passo a Passo: Matrícula Presencial</h2>
-                <div class="space-y-6">
-                    <div class="flex"><div class="flex flex-col items-center mr-4"><div class="step-indicator">1</div><div class="step-line h-full"></div></div><div><h4 class="font-bold text-lg">Recepção e Conferência</h4><p class="text-slate-600">Recepcione o munícipe e confira se toda a documentação obrigatória está completa e correta.</p></div></div>
-                    <div class="flex"><div class="flex flex-col items-center mr-4"><div class="step-indicator">2</div><div class="step-line h-full"></div></div><div><h4 class="font-bold text-lg">Cadastro no Sistema</h4><p class="text-slate-600">Acesse o sistema e realize o cadastro completo do aluno, preenchendo os dados pessoais, a ficha de anamnese e os cursos de interesse.</p></div></div>
-                    <div class="flex"><div class="flex flex-col items-center mr-4"><div class="step-indicator">3</div><div class="step-line h-full"></div></div><div><h4 class="font-bold text-lg">Geração da Ficha</h4><p class="text-slate-600">Após salvar o cadastro, localize o aluno no sistema e clique em "Prontuário" para visualizar a Ficha de Inscrição.</p></div></div>
-                    <div class="flex"><div class="flex flex-col items-center mr-4"><div class="step-indicator">4</div><div class="step-line h-full"></div></div><div><h4 class="font-bold text-lg">Impressão</h4><p class="text-slate-600">Imprima a ficha em modo "frente e verso".</p></div></div>
-                    <div class="flex"><div class="flex flex-col items-center mr-4"><div class="step-indicator">5</div></div><div><h4 class="font-bold text-lg">Assinaturas e Arquivamento</h4><p class="text-slate-600">Entregue a ficha para o munícipe ler, conferir os dados e assinar. Em seguida, o funcionário responsável também assina o documento, que será arquivado junto às cópias dos documentos.</p></div></div>
-                </div>
-            </div>
-
-            <div>
-                <h2 class="text-2xl font-bold mb-4">Passo a Passo: Matrícula Online (via WhatsApp)</h2>
-                <div class="space-y-6">
-                    <div class="flex"><div class="flex flex-col items-center mr-4"><div class="step-indicator">1</div><div class="step-line h-full"></div></div><div><h4 class="font-bold text-lg">Solicitação dos Dados</h4><p class="text-slate-600">Envie a mensagem padrão solicitando os documentos (em formato PDF ou foto legível) e, em seguida, a mensagem com o questionário da Ficha de Anamnese para preenchimento completo.</p></div></div>
-                    <div class="flex"><div class="flex flex-col items-center mr-4"><div class="step-indicator">2</div><div class="step-line h-full"></div></div><div><h4 class="font-bold text-lg">Cadastro e Confirmação</h4><p class="text-slate-600">Com os dados em mãos, realize o cadastro no sistema. Em seguida, envie a mensagem de confirmação com os dados do aluno e dos cursos para que ele responda com "OK" ou similar, validando as informações e o termo de adesão.</p></div></div>
-                    <div class="flex"><div class="flex flex-col items-center mr-4"><div class="step-indicator">3</div><div class="step-line h-full"></div></div><div><h4 class="font-bold text-lg">Documento de Validação</h4><p class="text-slate-600">Abra o modelo "Validação de Matrícula Online" no Word, preencha os dados (data, nome do funcionário) e anexe os prints da conversa do WhatsApp que comprovem o envio dos documentos e o "OK" do munícipe.</p></div></div>
-                    <div class="flex"><div class="flex flex-col items-center mr-4"><div class="step-indicator">4</div></div><div><h4 class="font-bold text-lg">Impressão e Arquivamento</h4><p class="text-slate-600">Imprima a Ficha de Inscrição gerada pelo sistema, o Documento de Validação com os prints e os documentos enviados pelo munícipe. Junte todo o material e arquive na pasta correspondente.</p></div></div>
+                    <div id="submenu-estrategias" class="submenu ml-6 space-y-1">
+                        <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('engajamento')">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">🚀</span>
+                                <span class="text-gray-700">Estratégia de Engajamento</span>
+                            </div>
+                        </div>
+                        <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('boafoto')">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">📸</span>
+                                <span class="text-gray-700">Orientação de uma Boa Foto</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
 
-                <div class="mb-10 bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
-        <h2 class="text-2xl font-bold text-teal-800 mb-4">Cursos Disponíveis</h2>
-        <div class="space-y-4 text-slate-700">
-            <div>
-                <h3 class="font-semibold text-lg">Idade mínima: 4 anos</h3>
-                <p>Ballet, Arte Circense (Circo), Jogos Lúdicos (Gincanas, Jogos e Brincadeiras), Recreação Infantil e Artesanato (Brinquedos de Material Reciclado).</p>
+    <!-- Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden" onclick="closeSidebar()"></div>
+
+    <!-- Main Content -->
+    <div class="ml-0 transition-all duration-300">
+        <!-- Header -->
+        <header class="text-center py-12 px-4">
+            <h1 class="text-4xl font-bold text-indigo-800 mb-4">📋 Guia Prático da Recepção</h1>
+            <p class="text-lg text-gray-600">Seu parceiro diário para um atendimento de excelência.</p>
+        </header>
+
+        <!-- Welcome Message -->
+        <div id="welcomeMessage" class="max-w-6xl mx-auto px-4">
+            <!-- Mensagem Central -->
+            <div class="bg-white rounded-xl shadow-lg p-8 text-center mb-8">
+                <div class="text-6xl mb-6">🤝</div>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Bem-vindo(a) ao coração do nosso atendimento!</h2>
+                <div class="max-w-4xl mx-auto text-lg text-gray-700 leading-relaxed mb-6">
+                    <p class="mb-4">A recepção é o primeiro sorriso, a primeira ajuda, a primeira impressão. É o ponto de partida para uma experiência positiva em nossa unidade.</p>
+                    <p>Este guia foi criado para ser seu principal aliado, oferecendo clareza e confiança para que você possa desempenhar seu papel com excelência, seja no seu primeiro dia ou no seu milésimo atendimento.</p>
+                </div>
             </div>
-            <div>
-                <h3 class="font-semibold text-lg">Idade mínima: 6 anos</h3>
-                <p>Inglês, Reforço Escolar, Artes Cênicas (Teatro), Canto e Coral, Grafite, Instrumento Musical (Violão) e Street Dance.</p>
+
+            <!-- O que você encontra aqui -->
+            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                <h3 class="text-2xl font-bold text-center text-gray-800 mb-8">O que você encontra aqui?</h3>
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="text-center">
+                        <div class="text-5xl mb-4">🔍</div>
+                        <h4 class="text-xl font-semibold text-gray-800 mb-3">Consulta Rápida</h4>
+                        <p class="text-gray-600">Acesse o passo a passo de qualquer processo em segundos. Ideal para a correria do dia a dia.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl mb-4">🌱</div>
+                        <h4 class="text-xl font-semibold text-gray-800 mb-3">Integração e Treinamento</h4>
+                        <p class="text-gray-600">Um guia completo para novos integrantes se sentirem seguros e bem preparados desde o início.</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-5xl mb-4">✅</div>
+                        <h4 class="text-xl font-semibold text-gray-800 mb-3">Padronização e Qualidade</h4>
+                        <p class="text-gray-600">Garanta um atendimento consistente e de alta qualidade, seguindo nossos padrões e boas práticas.</p>
+                    </div>
+                </div>
             </div>
-            <div>
-                <h3 class="font-semibold text-lg">Idade mínima: 14 anos</h3>
-                <p>Dança do Ventre, Danças e Ritmos, Assistente Administrativo, Auxiliar Contábil/RH*, Auxiliar de Logística, Zumba, Portaria e Recepção, Maquiagem, Capacitação de Babás, Auxiliar de Veterinário e Petshop, Empreendedorismo* (Juvenil) e Confeitaria.</p>
+
+            <!-- Botões Interativos -->
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <h3 class="text-2xl font-bold text-center text-gray-800 mb-8">Acesso Rápido aos Guias</h3>
+                
+                <!-- Seções Principais -->
+                <div class="mb-8">
+                    <h4 class="text-xl font-semibold mb-4 flex items-center text-gray-800">
+                        <span class="text-2xl mr-3">🏢</span>
+                        Seções Principais
+                    </h4>
+                    <div class="grid grid-cols-3 gap-4">
+                        <button onclick="showGuide('atendimento')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                            <div class="text-2xl mb-2">🎯</div>
+                            <div class="font-semibold">Atendimento</div>
+                        </button>
+                        <button onclick="showGuide('matricula')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                            <div class="text-2xl mb-2">📝</div>
+                            <div class="font-semibold">Matrícula</div>
+                        </button>
+                        <button onclick="showGuide('email')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                            <div class="text-2xl mb-2">📧</div>
+                            <div class="font-semibold">E-mail</div>
+                        </button>
+                        <button onclick="showGuide('parceiros')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                            <div class="text-2xl mb-2">🤝</div>
+                            <div class="font-semibold">Parceiros</div>
+                        </button>
+                        <button onclick="showGuide('recebimento')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                            <div class="text-2xl mb-2">📦</div>
+                            <div class="font-semibold">Recebimento de Materiais</div>
+                        </button>
+                        <button onclick="showGuide('oficios')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                            <div class="text-2xl mb-2">📋</div>
+                            <div class="font-semibold">Ofícios</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Fluxograma de Atividades -->
+                <div class="mb-8">
+                    <h4 class="text-xl font-semibold mb-4 flex items-center" style="color: #53A80D;">
+                        <span class="text-2xl mr-3">📊</span>
+                        Fluxograma de Atividades
+                    </h4>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <button onclick="showGuide('atualizacao')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                            <div class="text-2xl mb-2">🔄</div>
+                            <div class="font-semibold">Atualização Mensal</div>
+                        </button>
+                        <button onclick="showGuide('fechamento')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                            <div class="text-2xl mb-2">✅</div>
+                            <div class="font-semibold">Fechamento Mensal</div>
+                        </button>
+                        <button onclick="showGuide('videoaulas')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                            <div class="text-2xl mb-2">🎥</div>
+                            <div class="font-semibold">Videoaulas na Plataforma</div>
+                        </button>
+                        <button onclick="showGuide('az')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                            <div class="text-2xl mb-2">🔤</div>
+                            <div class="font-semibold">A-Z</div>
+                        </button>
+                        <button onclick="showGuide('ativosinativos')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                            <div class="text-2xl mb-2">🔄</div>
+                            <div class="font-semibold">Ativos e Inativos</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Estratégias -->
+                <div class="mb-8">
+                    <h4 class="text-xl font-semibold mb-4 flex items-center" style="color: #98255D;">
+                        <span class="text-2xl mr-3">🎯</span>
+                        Estratégias
+                    </h4>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <button onclick="showGuide('engajamento')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                            <div class="text-2xl mb-2">🚀</div>
+                            <div class="font-semibold">Estratégia de Engajamento</div>
+                        </button>
+                        <button onclick="showGuide('boafoto')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                            <div class="text-2xl mb-2">📸</div>
+                            <div class="font-semibold">Orientação de uma Boa Foto</div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Botão Principal -->
+                <div class="text-center mt-8">
+                    <button onclick="openSidebar()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all transform hover:scale-105 shadow-lg">
+                        Acessar menu lateral
+                    </button>
+                </div>
             </div>
-            <div>
-                <h3 class="font-semibold text-lg">Idade mínima: 16 anos</h3>
-                <p>Atendente de Farmácias e Drogarias, Auxiliar de Cabeleireiro e Auxiliar de Jardinagem.</p>
+        </div>
+
+        <!-- Guide Content -->
+        <div id="guideContent" class="hidden max-w-6xl mx-auto px-4 pb-8">
+            <div class="bg-white rounded-xl shadow-lg p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 id="guideTitle" class="text-3xl font-bold text-gray-800"></h2>
+                    <button onclick="backToHome()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
+                        ← Voltar ao Início
+                    </button>
+                </div>
+                <div id="guideSteps" class="space-y-6"></div>
             </div>
-            <div>
-                <h3 class="font-semibold text-lg">Idade mínima: 18 anos</h3>
-                <p>Dança de Salão Ritmo Sertanejo, Auxiliar de Técnico de Segurança no Trabalho, Cuidador de Idosos, Auxiliar de Piscineiro, Estética Corporal, Estética Facial, Depilação Profissional (Design de Sobrancelhas), Manicure e Pedicure, Micro pigmentação e Fio a Fio, Extensão e Design de Unhas (Alongamento em Geral), Extensão de Cílios, Empreendedorismo* (Adulto) e Culinária (Adulto).</p>
-            </div>
-            <p class="text-sm text-slate-500 pt-2">*Os cursos marcados com asterisco oferecem a flexibilidade de serem realizados tanto na modalidade EAD quanto PRESENCIAL.</p>
         </div>
     </div>
-                
-                
-                <section id="emails" class="content-section" role="tabpanel" tabindex="0">
-                    <h1 class="text-3xl font-bold mb-6">Padrões de Comunicação por E-mail</h1><p class="text-slate-600 mb-8">A comunicação por e-mail deve ser clara, profissional e padronizada para facilitar a rastreabilidade. Utilize os modelos abaixo para as situações mais comuns.</p><div class="grid grid-cols-1 lg:grid-cols-2 gap-6"><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-semibold text-lg mb-4 text-teal-800">Devolutiva SAU</h3><p class="text-sm text-slate-500 mb-2">Para: admgeral@..., consultorparaiso@..., etc.</p><div class="relative"><button class="copy-btn" onclick="copyToClipboard('devolutivaSauTemplate')">Copiar</button><pre id="devolutivaSauTemplate" class="bg-slate-100 p-4 rounded-md text-sm text-slate-700 overflow-x-auto">
-Título: DEVOLUTIVA_SAU_[NOME DO MUNICIPE]_[DATA]
-
-Corpo:
-[Detalhes do contato e resolução da solicitação]
-                                </pre></div></div><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-semibold text-lg mb-4 text-teal-800">Acompanhamento Pedagógico</h3><p class="text-sm text-slate-500 mb-2">Para: coordenacaogeral@..., consultorflorida@...</p><div class="relative"><button class="copy-btn" onclick="copyToClipboard('acompPedagogicoTemplate')">Copiar</button><pre id="acompPedagogicoTemplate" class="bg-slate-100 p-4 rounded-md text-sm text-slate-700 overflow-x-auto">
-Título: ACOMPANHAMENTO PEDAGÓGICO_CHECKLIST CONSULTORES_CCPL ABADE GONZAGA DOS SANTOS_[DATA]
-
-Corpo:
-[Detalhes da observação em aula, comparando conteúdo aplicado com o programático.]
-                                </pre></div></div><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-semibold text-lg mb-4 text-teal-800">Controle de Atrasos/Faltas de Professores</h3><p class="text-sm text-slate-500 mb-2">Para: coordenacaogeral@..., consultorflorida@...</p><div class="relative"><button class="copy-btn" onclick="copyToClipboard('controleAtrasoTemplate')">Copiar</button><pre id="controleAtrasoTemplate" class="bg-slate-100 p-4 rounded-md text-sm text-slate-700 overflow-x-auto">
-Título: CONTROLE DE AUSÊNCIA OU ATRASO DOS PROFESSORES_CHECKLIST..._[DATA]
-
-Corpo:
-Segue o controle de ausência ou atraso dos professores referente ao dia [DATA].
-
-MANHÃ:
-✔ [Nome Professor]: [Horário]
-❌ [Nome Professor]: [Horário] (Faltou)
-
-TARDE:
-...
-                                </pre></div></div><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h3 class="font-semibold text-lg mb-4 text-teal-800">Solicitação de PDA</h3><p class="text-sm text-slate-500 mb-2">Para: E-mail da unidade de origem do aluno</p><div class="relative"><button class="copy-btn" onclick="copyToClipboard('pdaTemplate')">Copiar</button><pre id="pdaTemplate" class="bg-slate-100 p-4 rounded-md text-sm text-slate-700 overflow-x-auto">
-Título: SOLICITAÇÃO DE PDA: #[COD. DO ALUNO]_[NOME DO ALUNO]
-
-Corpo:
-Bom dia, tudo bem?
-Peço que por gentileza enviem o PDA #[COD. DO ALUNO] para realizar cursos nesta unidade.
-Att,
-                                </pre></div></div></div>
-                </section>
-                <section id="recebimentos" class="content-section" role="tabpanel" tabindex="0">
-                    <h1 class="text-3xl font-bold mb-6">Recebimento de Materiais</h1><p class="text-slate-600 mb-8">O controle de recebimento de materiais é crucial para a gestão de estoque e financeira. Siga este fluxo para todos os tipos de entrega.</p><div class="bg-white rounded-lg border border-slate-200 shadow-sm p-6"><h2 class="text-2xl font-semibold mb-4 text-teal-800">Fluxo Padrão de Recebimento</h2><ol class="list-decimal list-inside space-y-4 text-slate-700"><li><span class="font-semibold">Conferir os itens</span> junto ao entregador, especialmente para Hortifruti e Açougue.</li><li><span class="font-semibold">Assinar e carimbar</span> ambas as vias do documento de entrega (romaneio/nota). Uma via fica com o entregador, a outra com o CCPL.</li><li><span class="font-semibold">Escanear a via do CCPL.</span> Utilize o padrão da máquina e salve o PDF.</li><li><span class="font-semibold">Renomear o arquivo</span> seguindo a nomenclatura padrão. Ex: `ROMANEIO DE ENTREGA HORTIFRUTI_JARDIM FLÓRIDA_13.01.2025`.</li><li><span class="font-semibold">Enviar por e-mail</span> para o setor responsável (Coordenação, Nutricionista ou Financeiro).</li><li><span class="font-semibold">Arquivar o documento físico</span> no local correto: pasta da Coordenação ou envelope do Financeiro.</li></ol></div>
-                </section>
-                <section id="planilhas" class="content-section" role="tabpanel" tabindex="0">
-                    <h1 class="text-3xl font-bold mb-6">Gerenciamento de Planilhas</h1><p class="text-slate-600 mb-8">As planilhas são nossas ferramentas centrais de controle. Mantê-las atualizadas é uma prioridade. A primeira ação é sempre atualizar o Banco de Dados (BD).</p><div class="space-y-4"><details class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm"><summary class="flex justify-between items-center font-semibold text-lg">Planilha AZ (Controle de Fichas)<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></summary><div class="mt-4 text-slate-600"><p class="font-semibold">Objetivo:</p><p class="mb-2">Controlar as fichas físicas de matrícula em ordem alfabética.</p><p class="font-semibold">Processo de Atualização:</p><ol class="list-decimal list-inside ml-4"><li><strong>Atualizar BD:</strong> Baixar os dados mais recentes do sistema e colar na aba "BD" da planilha.</li><li><strong>Incluir Ficha:</strong> Adicionar o código do novo aluno e preencher manually os status dos documentos.</li><li><strong>Salvar:</strong> Clicar em "Preservar Histórico" e salvar.</li><li><strong>Anotar:</strong> Anotar o número AZ gerado na ficha física (a lápis) e no cadastro do aluno no sistema.</li></ol></div></details><details class="bg-white p-4 rounded-lg border border-slate-200 shadow-sm"><summary class="flex justify-between items-center font-semibold text-lg">Planilha de Lista de Presença<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg></summary><div class="mt-4 text-slate-600"><p class="font-semibold">Objetivo:</p><p class="mb-2">Registrar a frequência dos alunos nas aulas.</p><p class="font-semibold">Processo de Atualização:</p><ol class="list-decimal list-inside ml-4"><li><strong>Atualizar BD:</strong> Sempre comece atualizando o banco de dados.</li><li><strong>Incluir Aluno:</strong> Adicione o código do aluno na lista da turma correspondente e defina o status como "Ativo".</li><li><strong>Registrar Presença:</strong> Marque com "C" maiúsculo no dia da aula.</li><li><strong>Justificar Falta:</strong> Utilize a coluna "Observações" para inserir justificativas de ausência.</li></ol></div></details></div>
-                </section>
-                <section id="sistema" class="content-section" role="tabpanel" tabindex="0">
-                    <h1 class="text-3xl font-bold mb-6">Sistema e Grupos de WhatsApp</h1><p class="text-slate-600 mb-8">O sistema online e os grupos de WhatsApp são as principais plataformas para gestão de turmas e comunicação com os alunos.</p><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h2 class="text-2xl font-semibold mb-4 text-teal-800">Gestão no Sistema</h2><ul class="space-y-4"><li><h4 class="font-semibold">Inclusão de Aluno em Turma</h4><p class="text-slate-600">Vá em `Turmas > Relatório de Turmas`, acesse o link da turma e use a opção "Adicionar usuário pelo código".</p></li><li><h4 class="font-semibold">Registro de Presença</h4><p class="text-slate-600">Na página da turma, clique no `+ verde` para adicionar a data e marque a presença, falta ou afastamento de cada aluno, conforme a lista física.</p></li></ul></div><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h2 class="text-2xl font-semibold mb-4 text-teal-800">Criação de Grupos de WhatsApp</h2><ul class="space-y-4"><li><h4 class="font-semibold">Nomenclatura Padrão</h4><p class="text-slate-600">`[CÓDIGO DA TURMA]_[NOME DA TURMA]_JF`</p></li><li><h4 class="font-semibold">Configurações Essenciais</h4><p class="text-slate-600">Use a foto padrão do CCPL, desative mensagens temporárias e configure para que apenas administradores possam enviar mensagens. Adicione o professor como administrador.</p></li><li><h4 class="font-semibold">Mensagem de Boas-Vindas Padrão</h4><p class="text-slate-600">Use o texto padrão para dar as boas-vindas aos alunos no novo grupo.</p></li></ul></div></div>
-                </section>
-                <section id="agendamentos" class="content-section" role="tabpanel" tabindex="0">
-                    <h1 class="text-3xl font-bold mb-6">Agendamentos Especiais</h1><p class="text-slate-600 mb-8">Gerenciamos agendamentos para a equipe psicossocial e para avaliações de bioimpedância através da Agenda Google, com procedimentos específicos para cada um.</p><div class="grid grid-cols-1 lg:grid-cols-2 gap-8"><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h2 class="text-2xl font-semibold mb-4 text-teal-800">Agendamento Psicossocial</h2><ul class="space-y-4 text-slate-600"><li><strong class="text-slate-800">Regra Principal:</strong> Não agendar buscas espontâneas nas quintas-feiras. O atendimento é pessoal e intransferível.</li><li><strong class="text-slate-800">Agenda Google:</strong> Crie o evento com a nomenclatura `COD/NOME/TELEFONE/MOTIVO/FUNCIONÁRIO` e altere a cor para a correta.</li><li><strong class="text-slate-800">Sistema:</strong> Abra uma ocorrência no sistema para o aluno, selecionando "Recepção" e definindo a data final como o dia da consulta.</li></ul></div><div class="bg-white p-6 rounded-lg border border-slate-200 shadow-sm"><h2 class="text-2xl font-semibold mb-4 text-teal-800">Agendamento de Bioimpedância</h2><ul class="space-y-4 text-slate-600"><li><strong class="text-slate-800">Regras Principais:</strong> Não agendar menores de 14 anos ou munícipes com mais de 3 faltas anteriores.</li><li><strong class="text-slate-800">Confirmação:</strong> Envie a mensagem padrão de confirmação com 1 dia de antecedência, incluindo as orientações de preparo.</li><li><strong class="text-slate-800">Pós-Consulta:</strong> Baixe a ficha de avaliação do Google Drive e envie para o munícipe via WhatsApp.</li></ul></div></div>
-                </section>
-            </main>
-        </div>
     </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const links = document.querySelectorAll('.sidebar-link');
-            const sections = document.querySelectorAll('.content-section');
-            const parentLinks = document.querySelectorAll('.sidebar-parent-link');
-
-            function switchContent(targetId) {
-                sections.forEach(section => section.classList.remove('active'));
-                links.forEach(link => link.classList.remove('active'));
-
-                const targetSection = document.getElementById(targetId);
-                const targetLink = document.querySelector(`.sidebar-link[data-target="${targetId}"]`);
-                
-                if(targetSection && targetLink) {
-                    targetSection.classList.add('active');
-                    targetLink.classList.add('active');
-                    targetSection.focus({ preventScroll: true });
-                    const parentSubmenu = targetLink.closest('.sidebar-submenu');
-                    if (parentSubmenu) {
-                        parentSubmenu.classList.add('open');
-                        const parentButton = document.querySelector(`[data-submenu="${parentSubmenu.id}"]`);
-                        parentButton.classList.add('open');
+        const guides = {
+            atendimento: {
+                title: "🎯 Atendimento",
+                hasColumns: true,
+                columns: [
+                    {
+                        title: "👥 Atendimento Presencial",
+                        steps: [
+                            {
+                                title: "Recepção e Acolhimento",
+                                content: "• Cumprimente o munícipe com cordialidade e profissionalismo.<br>• Identifique a necessidade do atendimento.<br>• Direcione para o setor ou serviço adequado.<br>• Mantenha postura acolhedora e prestativa.",
+                                tips: ["Seja cordial e profissional", "Escute atentamente", "Direcione adequadamente"]
+                            },
+                            {
+                                title: "Coleta de Informações",
+                                content: "• Solicite documentos necessários para o atendimento.<br>• Preencha formulários com dados corretos.<br>• Confirme informações com o munícipe.<br>• Esclareça dúvidas sobre procedimentos.",
+                                tips: ["Verifique documentos", "Confirme dados", "Esclareça procedimentos"]
+                            },
+                            {
+                                title: "Finalização do Atendimento",
+                                content: "• Oriente sobre próximos passos.<br>• Entregue comprovantes ou protocolos.<br>• Informe prazos e retornos necessários.<br>• Agradeça pela visita e se coloque à disposição.",
+                                tips: ["Oriente próximos passos", "Entregue comprovantes", "Informe prazos"]
+                            }
+                        ]
+                    },
+                    {
+                        title: "💻 Atendimento Online (Para Dúvidas e Suporte Geral)",
+                        steps: [
+                            {
+                                title: "Saudação e Identificação Inicial",
+                                content: "• Ao receber a primeira mensagem do munícipe, envie uma saudação padronizada que identifique a instituição e se coloque à disposição.<br><br><strong>Exemplo:</strong> 'Olá! Bem-vindo(a) ao CCPL Abade Gonzaga. Meu nome é [Seu Nome], como posso ajudar?'",
+                                tips: ["Use saudação padronizada", "Identifique a instituição", "Coloque-se à disposição"]
+                            },
+                            {
+                                title: "Sondagem e Verificação",
+                                content: "• Peça ao munícipe que se identifique (nome completo ou CPF) para localizar o cadastro dele no sistema, caso seja necessário consultar alguma informação específica.<br>• Utilize perguntas abertas para entender a fundo a necessidade ou dúvida. Esta é a 'escuta ativa' do mundo digital.<br><br><strong>Exemplo:</strong> 'Para que eu possa consultar sua informação, poderia me informar seu nome completo, por favor?' seguido de 'Claro, poderia me detalhar um pouco mais sobre sua dúvida em relação ao horário do curso X?'",
+                                tips: ["Solicite identificação quando necessário", "Use perguntas abertas", "Pratique escuta ativa digital"]
+                            },
+                            {
+                                title: "Resolução e Orientação",
+                                content: "• Forneça a informação de forma clara, objetiva e completa.<br>• Se precisar enviar links, datas ou listas, use bullet points ou negrito para facilitar a leitura.<br>• Caso não tenha a resposta imediata, seja transparente. Informe que irá verificar com o setor responsável e estabeleça um prazo para o retorno.<br><br><strong>Exemplo:</strong> 'Verifiquei aqui e as aulas do curso de Violão ocorrem às quartas-feiras, das 19h às 21h. O retorno das atividades está previsto para o dia 15/01.'",
+                                tips: ["Seja claro e objetivo", "Use formatação para facilitar leitura", "Seja transparente sobre prazos"]
+                            },
+                            {
+                                title: "Finalização e Confirmação",
+                                content: "• Antes de encerrar, certifique-se de que a dúvida foi completamente sanada.<br>• Após a confirmação do munícipe, finalize com uma despedida cordial.<br><br><strong>Exemplo:</strong> 'Consegui te ajudar? Há mais alguma dúvida em que eu possa te auxiliar?'",
+                                tips: ["Confirme se a dúvida foi sanada", "Finalize cordialmente", "Deixe canal aberto para novas dúvidas"]
+                            }
+                        ]
                     }
-                }
+                ]
+            },
+            matricula: {
+                title: "📝 Matrícula",
+                description: "O processo de matrícula vai muito além de um simples cadastro; ele é um indicador vital para a gestão da unidade. Os números de matrículas são a base para análises e estudos estratégicos que impactam diretamente nas decisões de abertura ou fechamento de turmas. Um processo de matrícula bem executado garante a integridade dos dados que sustentam o planejamento, a alocação de recursos e o futuro dos cursos oferecidos à comunidade.",
+                hasColumns: true,
+                columns: [
+                    {
+                        title: "📍 Matrícula Presencial",
+                        steps: [
+                            {
+                                title: "Documentação Necessária",
+                                content: "• RG/CPF do aluno: Pode ser entregue pessoalmente ou via WhatsApp (PDF ou foto legível).<br>• RG/CPF do responsável (para menores de idade): Apenas de pais, tutores legais ou instituições de acolhimento.<br>• Comprovante de residência: Contas de água, luz, telefone ou fatura de cartão de crédito, com no máximo 3 meses. Em nome de terceiros, é necessário comprovar o parentesco.<br>• Foto 3x4.<br>• Atestado ou agendamento médico: Para cursos de dança.",
+                                tips: ["Verifique validade dos documentos", "Confirme parentesco quando necessário", "Solicite atestado médico para dança"]
+                            },
+                            {
+                                title: "Cadastro no Sistema",
+                                content: "• Acesse o sistema e clique em 'Adicionar Aluno'.<br>• Preencha os dados pessoais, a ficha de anamnese e marque os documentos entregues.<br>• Selecione a unidade 'CCPL Abade Gonzaga' e os cursos de interesse.<br>• Salve as informações.",
+                                tips: ["Preencha todos os campos obrigatórios", "Marque documentos recebidos", "Confirme unidade correta"]
+                            },
+                            {
+                                title: "Impressão da Ficha",
+                                content: "• Busque a ficha no sistema e clique em 'Prontuário'.<br>• Imprima a ficha em modo frente e verso.<br>• Entregue para o munícipe assinar, reforçando as informações dos termos.",
+                                tips: ["Imprima frente e verso", "Explique os termos", "Obtenha assinatura"]
+                            }
+                        ]
+                    },
+                    {
+                        title: "💬 Matrícula Online (via WhatsApp)",
+                        steps: [
+                            {
+                                title: "1. Coleta de Informações e Documentos",
+                                content: "Esta é a fase de solicitar tudo o que é necessário para o cadastro.<br><br><strong>Envie a lista de documentos necessários:</strong><br>• RG/CPF do aluno (e do responsável, se menor de idade)<br>• Comprovante de residência atualizado (dos últimos três meses)<br>• Foto 3x4<br><br><strong>Solicite o preenchimento da Anamnese:</strong><br>• Envie o questionário completo para que o munícipe responda diretamente na conversa<br>• Inclui dados de contato, escolaridade, estado civil e informações de saúde (alergias, uso de medicamentos, etc.)",
+                                tips: ["Reforce que fotos devem estar nítidas", "Aceite documentos em PDF", "Solicite anamnese completa"]
+                            },
+                            {
+                                title: "2. Conferência e Confirmação de Dados",
+                                content: "Após receber tudo, é hora de formalizar e obter a validação final do munícipe.<br><br><strong>Compile e envie um resumo:</strong><br>• Crie uma mensagem com todos os dados principais fornecidos (Nome completo, RG, CPF, Endereço, Cursos de interesse, etc.)<br><br><strong>Solicite a validação com 'OK':</strong><br>• Peça explicitamente que o munícipe leia tudo e, se estiver correto, responda com 'OK'<br>• Esta confirmação é a assinatura digital do processo<br><br><strong>Envie os Termos de Adesão:</strong><br>• Juntamente com o resumo, envie o texto com as normas do CCPL (sobre faltas, uso de imagem, etc.) para ciência",
+                                tips: ["Compile resumo completo", "Solicite confirmação explícita com 'OK'", "Envie termos de adesão"]
+                            },
+                            {
+                                title: "3. Validação Interna do Processo",
+                                content: "Com o 'OK' do munícipe, a recepção finaliza o processo internamente.<br><br><strong>Realize o cadastro no sistema:</strong><br>• Utilize as informações e documentos recebidos para fazer a matrícula no sistema<br>• Siga o mesmo passo a passo da matrícula presencial<br><br><strong>Imprima a documentação:</strong><br>• Imprima a ficha do aluno após salvar no sistema<br>• Imprima os documentos enviados pelo munícipe via WhatsApp<br><br><strong>Crie o Documento de Validação:</strong><br>• Abra o arquivo modelo 'VALIDAÇÃO DE MATRICULA ONLINE'<br>• Preencha a data e o nome do funcionário responsável<br>• Tire prints da conversa no WhatsApp (documentos enviados, respostas da anamnese e a mensagem com o 'OK')<br>• Anexe os prints ao documento e imprima<br>• Junte à ficha de matrícula e demais documentos impressos",
+                                tips: ["Siga processo da matrícula presencial", "Use modelo de validação correto", "Inclua prints da conversa completa", "Organize documentação final"]
+                            }
+                        ]
+                    }
+                ]
+            },
+            recebimento: {
+                title: "📦 Recebimento de Materiais",
+                description: "Este é um processo fundamental para o controle de estoque e para a prestação de contas da unidade. A atenção na conferência dos itens recebidos é crucial para garantir que tudo o que foi solicitado seja efetivamente entregue. A formalização, através da assinatura de documentos, escaneamento e envio para os setores responsáveis, assegura que o processo seja transparente, rastreável e que todos os departamentos estejam alinhados, evitando discrepâncias e garantindo a boa gestão dos recursos.",
+                steps: [
+                    {
+                        title: "🥪 Kit Lanche",
+                        content: "Entregue de segunda a sexta. É preciso assinar as duas vias do romaneio, devolver a via superior ao entregador, escanear a outra via e enviar por e-mail para a coordenação.",
+                        tips: ["Assine ambas as vias", "Devolva via superior", "Escaneie e envie para coordenação"]
+                    },
+                    {
+                        title: "🥬 Hortifrúti",
+                        content: "Entregue de segunda a sexta. Os materiais devem ser conferidos na cozinha. O romaneio deve ser escaneado, renomeado e enviado por e-mail para a nutricionista.",
+                        tips: ["Confira na cozinha", "Renomeie o arquivo", "Envie para nutricionista"]
+                    },
+                    {
+                        title: "🥩 Açougue",
+                        content: "Entregue de segunda a sexta, com conferência na cozinha. O documento assinado deve ser escaneado e enviado para a nutricionista e para o financeiro.",
+                        tips: ["Confira na cozinha", "Envie para nutricionista", "Envie para financeiro"]
+                    },
+                    {
+                        title: "💧 Água e Gás",
+                        content: "O canhoto deve ser assinado e carimbado. A via do CCPL deve ser escaneada e enviada por e-mail para o financeiro.",
+                        tips: ["Assine e carimbe", "Escaneie via CCPL", "Envie para financeiro"]
+                    }
+                ]
+            },
+            oficios: {
+                title: "📋 Ofícios (Reserva de Quadra)",
+                description: "Regras Gerais: A reserva é para maiores de 18 anos, por uma hora, e é necessário apresentar documento de identificação. A distribuição dos ofícios ocorre às segundas-feiras, das 08h às 10h.",
+                steps: [
+                    {
+                        title: "📝 Preenchimento do Termo",
+                        content: "O interessado preenche e assina o 'Termo de Responsabilidade'. Verifique se todos os dados estão corretos e legíveis.",
+                        tips: ["Verifique documento de identidade", "Confirme maioridade", "Dados legíveis no termo"]
+                    },
+                    {
+                        title: "📅 Inclusão no Calendário",
+                        content: "O nome e o horário são incluídos no calendário do quadro de avisos. Confirme disponibilidade do horário solicitado.",
+                        tips: ["Verifique disponibilidade", "Atualize quadro de avisos", "Confirme horário com interessado"]
+                    },
+                    {
+                        title: "📁 Arquivo do Documento",
+                        content: "O documento é guardado na pasta 01. OFICIOS QUADRA com a nomenclatura 'OFICIO QUADRA_[NOME DO MUNICIPE]_[DATA DO OFICIO]'.",
+                        tips: ["Use nomenclatura correta", "Arquivo na pasta certa", "Mantenha organização"]
+                    }
+                ]
+            },
+            email: {
+                title: "📧 E-mail",
+                description: "O e-mail é uma das principais ferramentas de comunicação formal e profissional. A forma como escrevemos, seja ao enviar ou ao responder uma mensagem, reflete diretamente na imagem da instituição. Manter uma escrita formal, clara e objetiva, bem como responder com agilidade, demonstra eficiência, organização e respeito. A cordialidade e a formalidade na comunicação por e-mail são essenciais para construir e manter um relacionamento profissional com todos os públicos.",
+                steps: [
+                    {
+                        title: "📋 Solicitação de PDA",
+                        content: "Para alunos que já possuem cadastro em outro polo. O e-mail deve ter como título 'SOLICITAÇÃO DE PDA: #COD. DO ALUNO_NOME DO ALUNO'.",
+                        tips: ["Use código do aluno", "Inclua nome completo", "Verifique cadastro em outro polo"]
+                    },
+                    {
+                        title: "📊 Acompanhamento Pedagógico",
+                        content: "Enviar para consultorflorida@ccplbarueri.com.br e coordenacaogeral@ccplbarueri.com.br com o título 'ACOMPANHAMENTO PEDAGÓGICO_CHECKLIST CONSULTORES_CCPL ABADE GONZAGA DOS SANTOS_[DATA]'.",
+                        tips: ["Envie para ambos os e-mails", "Use título padronizado", "Inclua data atual"]
+                    },
+                    {
+                        title: "⏰ Controle de Atraso dos Professores",
+                        content: "Enviar para os mesmos e-mails do acompanhamento pedagógico com o título 'CONTROLE DE AUSÊNCIA OU ATRASO DOS PROFESSORES_CHECKLIST CONSULTORES_CCPL ABADE GONZAGA DOS SANTOS_[DATA]'.",
+                        tips: ["Use mesmos destinatários", "Documente ausências e atrasos", "Mantenha registro atualizado"]
+                    },
+                    {
+                        title: "📝 Devolutiva SAU",
+                        content: "Responder ao e-mail do SAU com o título 'DEVOLUTIVA_SAU_[NOME DO MUNICIPE]_[DATA]'.",
+                        tips: ["Responda prontamente", "Inclua nome do munícipe", "Use formato padronizado"]
+                    }
+                ]
+            },
+            atualizacao: {
+                title: "🔄 Atualização Mensal (Começo de mês)",
+                hasFlowchart: true,
+                flowchartUrl: "https://www.canva.com/design/DAG1yvV7QLQ/XgFMb7sStTwuCsmqTHrlnA/view?utm_content=DAG1yvV7QLQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h5bb0612593",
+                steps: [
+                    {
+                        title: "1. Início do Processo",
+                        content: "No primeiro dia útil do mês, inicie o processo de atualização da lista de presença. Verifique se todos os dados do mês anterior foram devidamente registrados no sistema.",
+                        tips: ["Acesse no primeiro dia útil", "Verifique registros anteriores", "Prepare ambiente de trabalho"]
+                    },
+                    {
+                        title: "2. Coleta e Verificação de Dados",
+                        content: "Colete todas as informações de presença do mês anterior. Verifique inconsistências, dados duplicados ou ausentes. Organize os dados por categoria e participante.",
+                        tips: ["Colete dados completos", "Identifique inconsistências", "Organize por categoria"]
+                    },
+                    {
+                        title: "3. Atualização de Status dos Participantes",
+                        content: "Atualize o status de cada participante: ativo, inativo, transferido ou desligado. Confirme dados de contato, endereço e informações cadastrais atualizadas.",
+                        tips: ["Atualize todos os status", "Confirme dados de contato", "Registre mudanças cadastrais"]
+                    },
+                    {
+                        title: "4. Validação com Coordenadores",
+                        content: "Valide as informações coletadas com os coordenadores de cada área. Confirme alterações de status e esclareça dúvidas sobre participantes específicos.",
+                        tips: ["Valide com coordenadores", "Confirme alterações", "Esclareça dúvidas"]
+                    },
+                    {
+                        title: "5. Correção de Inconsistências",
+                        content: "Corrija todas as informações inconsistentes identificadas. Atualize dados incorretos e complete informações faltantes no sistema.",
+                        tips: ["Corrija inconsistências", "Complete dados faltantes", "Atualize informações incorretas"]
+                    },
+                    {
+                        title: "6. Finalização e Backup",
+                        content: "Gere backup completo dos dados atualizados. Prepare relatório mensal consolidado e envie para supervisão. Configure sistema para o novo mês.",
+                        tips: ["Faça backup completo", "Gere relatório consolidado", "Prepare sistema para novo mês"]
+                    }
+                ]
+            },
+            fechamento: {
+                title: "✅ Fechamento Mensal",
+                hasFlowchart: true,
+                flowchartUrl: "https://www.canva.com/design/DAG1ylMYQ_o/nXp7Fu7GC9jS0LbIUQ9TIQ/view?utm_content=DAG1ylMYQ_o&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc563e2457a",
+                steps: [
+                    {
+                        title: "1. Início do Fechamento",
+                        content: "No último dia útil do mês, inicie o processo de fechamento da lista de presença. Verifique se todas as atividades do mês foram devidamente registradas.",
+                        tips: ["Inicie no último dia útil", "Verifique registros completos", "Confirme todas as atividades"]
+                    },
+                    {
+                        title: "2. Consolidação de Todas as Presenças",
+                        content: "Consolide todas as presenças registradas durante o mês. Organize os dados por participante, atividade e data. Verifique se não há registros pendentes.",
+                        tips: ["Consolide todos os registros", "Organize por participante", "Verifique pendências"]
+                    },
+                    {
+                        title: "3. Cálculo de Percentuais de Frequência",
+                        content: "Calcule os percentuais de frequência individual de cada participante e por atividade. Identifique padrões de presença e ausência no período.",
+                        tips: ["Calcule percentuais individuais", "Analise por atividade", "Identifique padrões"]
+                    },
+                    {
+                        title: "4. Geração de Relatórios Estatísticos",
+                        content: "Gere relatórios estatísticos completos: total de participantes ativos, média geral de presença, atividades com maior e menor frequência. Compare com meses anteriores.",
+                        tips: ["Gere estatísticas completas", "Compare períodos anteriores", "Analise tendências mensais"]
+                    },
+                    {
+                        title: "5. Identificação de Situações Especiais",
+                        content: "Identifique participantes com baixa frequência, ausências prolongadas ou situações que requerem atenção especial. Liste pendências administrativas.",
+                        tips: ["Identifique baixa frequência", "Liste situações especiais", "Documente pendências"]
+                    },
+                    {
+                        title: "6. Arquivo e Documentação Final",
+                        content: "Archive todos os documentos do mês encerrado. Organize arquivos digitais e físicos. Prepare documentação completa para auditoria e consultas futuras.",
+                        tips: ["Archive documentos completos", "Organize arquivos", "Prepare para auditoria"]
+                    }
+                ]
+            },
+            videoaulas: {
+                title: "🎥 Videoaulas na Plataforma",
+                hasFlowchart: true,
+                flowchartUrl: "https://www.canva.com/design/DAG1yhJlE14/A0QkP8bx-cY7Z3LnIxJVqQ/view?utm_content=DAG1yhJlE14&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4a83c783b0",
+                steps: [
+                    {
+                        title: "1. Preparação do Conteúdo",
+                        content: "Prepare o material de vídeo que será enviado para a plataforma. Verifique qualidade do áudio e vídeo, duração adequada e conteúdo relevante para os participantes.",
+                        tips: ["Verifique qualidade audiovisual", "Confirme duração adequada", "Valide relevância do conteúdo"]
+                    },
+                    {
+                        title: "2. Acesso à Plataforma",
+                        content: "Acesse a plataforma de videoaulas com suas credenciais de administrador. Verifique se há atualizações disponíveis no sistema e confirme funcionamento adequado.",
+                        tips: ["Use credenciais de administrador", "Verifique atualizações", "Teste funcionamento"]
+                    },
+                    {
+                        title: "3. Categorização e Organização",
+                        content: "Defina a categoria apropriada para o vídeo. Organize por tema, nível de dificuldade ou público-alvo. Crie estrutura lógica para facilitar localização pelos usuários.",
+                        tips: ["Defina categoria apropriada", "Organize por nível", "Crie estrutura lógica"]
+                    },
+                    {
+                        title: "4. Upload do Vídeo",
+                        content: "Realize o upload do arquivo de vídeo na plataforma. Aguarde processamento completo. Verifique se o upload foi realizado com sucesso e sem erros.",
+                        tips: ["Aguarde processamento completo", "Verifique upload bem-sucedido", "Confirme ausência de erros"]
+                    },
+                    {
+                        title: "5. Configuração de Metadados",
+                        content: "Adicione título descritivo, descrição detalhada, tags relevantes e miniatura atrativa. Configure permissões de acesso e disponibilidade para os usuários.",
+                        tips: ["Adicione título descritivo", "Configure tags relevantes", "Defina permissões adequadas"]
+                    },
+                    {
+                        title: "6. Teste e Publicação",
+                        content: "Teste a reprodução do vídeo na plataforma. Verifique qualidade, legendas (se aplicável) e funcionalidades. Publique o conteúdo para os usuários finais.",
+                        tips: ["Teste reprodução completa", "Verifique funcionalidades", "Publique para usuários"]
+                    },
+                    {
+                        title: "7. Monitoramento e Suporte",
+                        content: "Monitore visualizações e feedback dos usuários. Forneça suporte técnico quando necessário. Documente problemas recorrentes para melhorias futuras.",
+                        tips: ["Monitore visualizações", "Forneça suporte técnico", "Documente melhorias"]
+                    }
+                ]
+            },
+            az: {
+                title: "🔤 A-Z",
+                steps: [
+                    {
+                        title: "1. Organização Alfabética",
+                        content: "Mantenha arquivos e documentos organizados alfabeticamente. Use sistema de indexação claro. Facilite localização rápida de informações.",
+                        tips: ["Organize alfabeticamente", "Use indexação clara", "Facilite localização"]
+                    },
+                    {
+                        title: "2. Cadastro de Participantes",
+                        content: "Organize lista de participantes de A a Z. Mantenha dados atualizados. Facilite consultas rápidas por nome ou sobrenome.",
+                        tips: ["Liste de A a Z", "Mantenha atualizado", "Facilite consultas"]
+                    },
+                    {
+                        title: "3. Arquivo de Documentos",
+                        content: "Arquive documentos seguindo ordem alfabética. Use separadores claros. Mantenha índice atualizado para consulta rápida.",
+                        tips: ["Siga ordem alfabética", "Use separadores", "Mantenha índice"]
+                    },
+                    {
+                        title: "4. Sistema de Busca",
+                        content: "Implemente sistema de busca eficiente. Treine equipe no uso do sistema. Mantenha backup da organização alfabética.",
+                        tips: ["Sistema de busca eficiente", "Treine equipe", "Mantenha backup"]
+                    }
+                ]
+            },
+            ativosinativos: {
+                title: "🔄 Ativos e Inativos",
+                steps: [
+                    {
+                        title: "1. Classificação de Status",
+                        content: "Defina critérios claros para classificar participantes como ativos ou inativos. Considere frequência, participação e engajamento nas atividades.",
+                        tips: ["Defina critérios claros", "Considere frequência", "Avalie engajamento"]
+                    },
+                    {
+                        title: "2. Monitoramento Regular",
+                        content: "Monitore regularmente o status dos participantes. Identifique mudanças de comportamento. Atualize classificações conforme necessário.",
+                        tips: ["Monitore regularmente", "Identifique mudanças", "Atualize classificações"]
+                    },
+                    {
+                        title: "3. Ações de Reativação",
+                        content: "Desenvolva estratégias para reativar participantes inativos. Entre em contato para entender motivos da inatividade. Ofereça alternativas de participação.",
+                        tips: ["Desenvolva estratégias", "Entre em contato", "Ofereça alternativas"]
+                    },
+                    {
+                        title: "4. Relatórios de Status",
+                        content: "Gere relatórios periódicos sobre ativos e inativos. Analise tendências e padrões. Compartilhe insights com equipe de coordenação.",
+                        tips: ["Gere relatórios periódicos", "Analise tendências", "Compartilhe insights"]
+                    }
+                ]
+            },
+            parceiros: {
+                title: "🤝 Parceiros",
+                steps: [
+                    {
+                        title: "1. Cadastro de Parceiros",
+                        content: "Mantenha cadastro atualizado de todos os parceiros. Registre dados de contato, área de atuação e tipo de parceria. Organize por categoria de serviço.",
+                        tips: ["Mantenha cadastro atualizado", "Registre dados completos", "Organize por categoria"]
+                    },
+                    {
+                        title: "2. Gestão de Relacionamento",
+                        content: "Mantenha comunicação regular com parceiros. Agende reuniões periódicas. Monitore qualidade dos serviços prestados.",
+                        tips: ["Comunique-se regularmente", "Agende reuniões", "Monitore qualidade"]
+                    },
+                    {
+                        title: "3. Contratos e Acordos",
+                        content: "Gerencie contratos e acordos de parceria. Monitore prazos de renovação. Mantenha documentação organizada e acessível.",
+                        tips: ["Gerencie contratos", "Monitore prazos", "Mantenha documentação"]
+                    },
+                    {
+                        title: "4. Avaliação de Performance",
+                        content: "Avalie regularmente performance dos parceiros. Colete feedback dos usuários. Tome ações corretivas quando necessário.",
+                        tips: ["Avalie performance", "Colete feedback", "Tome ações corretivas"]
+                    }
+                ]
+            },
+            engajamento: {
+                title: "🚀 Estratégia de Engajamento",
+                hasFlowchart: true,
+                flowchartUrl: "https://www.canva.com/design/DAG1y1H0h_0/OktFH62LSERq7MBJNqKjjQ/watch?utm_content=DAG1y1H0h_0&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hb5cec4c0ff",
+                steps: [
+                    {
+                        title: "1. Compreenda seu Público",
+                        content: "Identifique quem são seus participantes, suas necessidades, interesses e motivações. Realize pesquisas, conversas informais e observe comportamentos para entender melhor o que os engaja.",
+                        tips: ["Faça pesquisas regulares", "Observe comportamentos", "Escute feedback ativo"]
+                    },
+                    {
+                        title: "2. Crie Conteúdo Relevante",
+                        content: "Desenvolva materiais, atividades e comunicações que sejam significativas para seu público. Use linguagem acessível, exemplos práticos e conecte o conteúdo com a realidade dos participantes.",
+                        tips: ["Use linguagem simples", "Dê exemplos práticos", "Conecte com a realidade"]
+                    },
+                    {
+                        title: "3. Promova Interação",
+                        content: "Crie oportunidades para que os participantes interajam entre si e com você. Use dinâmicas, perguntas abertas, trabalhos em grupo e momentos de compartilhamento de experiências.",
+                        tips: ["Faça perguntas abertas", "Promova trabalhos em grupo", "Incentive compartilhamento"]
+                    },
+                    {
+                        title: "4. Reconheça e Valorize",
+                        content: "Reconheça a participação, esforços e conquistas dos participantes. Use elogios específicos, certificados, menções públicas ou outras formas de reconhecimento que sejam significativas.",
+                        tips: ["Elogie especificamente", "Use reconhecimento público", "Celebre conquistas"]
+                    },
+                    {
+                        title: "5. Mantenha Comunicação Constante",
+                        content: "Estabeleça canais de comunicação eficazes e mantenha contato regular. Use diferentes meios: presencial, digital, escrito. Seja consistente e responsivo às necessidades dos participantes.",
+                        tips: ["Use múltiplos canais", "Seja consistente", "Responda rapidamente"]
+                    },
+                    {
+                        title: "6. Avalie e Ajuste",
+                        content: "Monitore constantemente o nível de engajamento e colete feedback. Esteja disposto a ajustar estratégias, métodos e abordagens baseado nos resultados e nas necessidades identificadas.",
+                        tips: ["Monitore constantemente", "Colete feedback regular", "Ajuste quando necessário"]
+                    }
+                ]
+            },
+            boafoto: {
+                title: "📸 Orientação de uma Boa Foto",
+                hasFlowchart: true,
+                flowchartUrl: "https://www.canva.com/design/DAG1ysPSJk4/ZVjaoAzY4ceYDtf7OI3V7A/view?utm_content=DAG1ysPSJk4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h9313b0ef8a",
+                steps: [
+                    {
+                        title: "1. Iluminação Adequada",
+                        content: "Use sempre luz natural quando possível. Posicione-se de frente para uma janela ou em ambiente bem iluminado. Evite luz direta muito forte que cause sombras no rosto ou reflexos indesejados.",
+                        tips: ["Prefira luz natural", "Evite sombras no rosto", "Não use flash direto"]
+                    },
+                    {
+                        title: "2. Fundo Limpo e Neutro",
+                        content: "Escolha um fundo simples, sem elementos que distraiam a atenção. Cores neutras como branco, cinza claro ou azul suave funcionam bem. Evite fundos bagunçados ou com muitas informações visuais.",
+                        tips: ["Use cores neutras", "Evite bagunça no fundo", "Mantenha simplicidade"]
+                    },
+                    {
+                        title: "3. Enquadramento e Posicionamento",
+                        content: "Posicione-se centralizado na foto, com os ombros ligeiramente voltados para a câmera. Mantenha uma postura ereta e natural. O enquadramento ideal vai do peito até um pouco acima da cabeça.",
+                        tips: ["Centre-se na foto", "Mantenha postura ereta", "Enquadre do peito para cima"]
+                    },
+                    {
+                        title: "4. Expressão e Olhar",
+                        content: "Mantenha uma expressão natural e profissional. Um sorriso leve e genuíno transmite confiança. Olhe diretamente para a câmera para criar conexão com quem vê a foto.",
+                        tips: ["Sorria naturalmente", "Olhe para a câmera", "Mantenha expressão confiante"]
+                    },
+                    {
+                        title: "5. Vestimenta Apropriada",
+                        content: "Use roupas profissionais e adequadas ao ambiente de trabalho. Evite estampas muito chamativas, cores muito vibrantes ou acessórios excessivos. Prefira cores sólidas e neutras.",
+                        tips: ["Vista-se profissionalmente", "Evite estampas chamativas", "Use cores neutras"]
+                    },
+                    {
+                        title: "6. Qualidade Técnica",
+                        content: "Use uma câmera ou celular com boa resolução. Certifique-se de que a foto está nítida, sem tremores. Tire várias fotos e escolha a melhor. Verifique se não há elementos indesejados na imagem.",
+                        tips: ["Use boa resolução", "Verifique nitidez", "Tire várias opções"]
+                    }
+                ]
+            }
+        };
+
+        let currentScrollPosition = 0;
+
+        // Menu functions
+        function openSidebar() {
+            document.getElementById('sidebar').classList.add('open');
+            document.getElementById('overlay').classList.remove('hidden');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('overlay').classList.add('hidden');
+            
+            // Reset all submenus to closed state
+            const allSubmenus = document.querySelectorAll('.submenu');
+            const allArrows = document.querySelectorAll('[id^="arrow-"]');
+            
+            allSubmenus.forEach(submenu => {
+                submenu.classList.remove('open');
+            });
+            
+            allArrows.forEach(arrow => {
+                arrow.classList.remove('rotate-90');
+            });
+        }
+
+        function toggleSubmenu(submenuId) {
+            const submenu = document.getElementById(`submenu-${submenuId}`);
+            const arrow = document.getElementById(`arrow-${submenuId}`);
+            
+            submenu.classList.toggle('open');
+            arrow.classList.toggle('rotate-90');
+        }
+
+        // Event listeners
+        document.getElementById('menuToggle').addEventListener('click', openSidebar);
+        document.getElementById('closeSidebar').addEventListener('click', closeSidebar);
+
+        function showGuide(guideId) {
+            const guide = guides[guideId];
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            const content = document.getElementById('guideContent');
+            const title = document.getElementById('guideTitle');
+            const steps = document.getElementById('guideSteps');
+
+            // Save current scroll position before showing guide
+            currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+
+            welcomeMessage.classList.add('hidden');
+            content.classList.remove('hidden');
+            content.classList.add('fade-in');
+            closeSidebar();
+            
+            // Scroll to top when showing new guide
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            title.textContent = guide.title;
+            steps.innerHTML = '';
+
+            // Add description if available
+            if (guide.description) {
+                const descDiv = document.createElement('div');
+                descDiv.className = 'bg-blue-50 rounded-lg p-6 mb-6 border-l-4 border-blue-500';
+                descDiv.innerHTML = `
+                    <p class="text-gray-700 leading-relaxed text-lg">${guide.description}</p>
+                `;
+                steps.appendChild(descDiv);
             }
 
-            links.forEach(link => {
-                if (!link.classList.contains('sidebar-parent-link')) {
-                    link.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        const targetId = this.dataset.target;
-                        // Fecha outros menus pai abertos
-                        parentLinks.forEach(p => {
-                            if(p !== this.closest('.sidebar-group')?.querySelector('.sidebar-parent-link')) {
-                                p.classList.remove('open');
-                                document.getElementById(p.dataset.submenu).classList.remove('open');
-                            }
-                        });
-                        switchContent(targetId);
+            // Handle column layout for matricula guide
+            if (guide.hasColumns && guide.columns) {
+                const columnsDiv = document.createElement('div');
+                columnsDiv.className = 'grid md:grid-cols-2 gap-8';
+                
+                guide.columns.forEach(column => {
+                    const columnDiv = document.createElement('div');
+                    columnDiv.className = 'space-y-6';
+                    
+                    const columnTitle = document.createElement('h3');
+                    columnTitle.className = 'text-2xl font-bold text-gray-800 mb-4 text-center';
+                    columnTitle.textContent = column.title;
+                    columnDiv.appendChild(columnTitle);
+                    
+                    column.steps.forEach(step => {
+                        const stepDiv = document.createElement('div');
+                        stepDiv.className = 'step-card bg-gray-50 rounded-lg p-6 border-l-4 border-indigo-500';
+                        
+                        stepDiv.innerHTML = `
+                            <h4 class="text-lg font-semibold text-gray-800 mb-3">${step.title}</h4>
+                            <div class="text-gray-700 mb-4 leading-relaxed">${step.content}</div>
+                            <div class="bg-white rounded-lg p-4">
+                                <h5 class="font-semibold text-indigo-700 mb-2">💡 Dicas Importantes:</h5>
+                                <ul class="list-disc list-inside space-y-1">
+                                    ${step.tips.map(tip => `<li class="text-gray-600">${tip}</li>`).join('')}
+                                </ul>
+                            </div>
+                        `;
+                        
+                        columnDiv.appendChild(stepDiv);
                     });
-                }
-            });
-
-            parentLinks.forEach(parent => {
-                parent.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    this.classList.toggle('open');
-                    const submenuId = this.dataset.submenu;
-                    document.getElementById(submenuId).classList.toggle('open');
+                    
+                    columnsDiv.appendChild(columnDiv);
                 });
-            });
-        });
-        function copyToClipboard(elementId) {
-            const textToCopy = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const button = event.target;
-                const originalText = button.innerText;
-                button.innerText = 'Copiado!';
-                setTimeout(() => { button.innerText = originalText; }, 1500);
-            }).catch(err => { console.error('Erro ao copiar texto: ', err); });
+                
+                steps.appendChild(columnsDiv);
+            } else {
+                // Regular single column layout
+                guide.steps.forEach((step, index) => {
+                    const stepDiv = document.createElement('div');
+                    stepDiv.className = 'step-card bg-gray-50 rounded-lg p-6 border-l-4 border-indigo-500';
+                    
+                    stepDiv.innerHTML = `
+                        <h3 class="text-xl font-semibold text-gray-800 mb-3">${step.title}</h3>
+                        <div class="text-gray-700 mb-4 leading-relaxed">${step.content}</div>
+                        <div class="bg-white rounded-lg p-4">
+                            <h4 class="font-semibold text-indigo-700 mb-2">💡 Dicas Importantes:</h4>
+                            <ul class="list-disc list-inside space-y-1">
+                                ${step.tips.map(tip => `<li class="text-gray-600">${tip}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                    
+                    steps.appendChild(stepDiv);
+                });
+            }
+
+            // Add flowchart after all steps if available
+            if (guide.hasFlowchart) {
+                const flowchartDiv = document.createElement('div');
+                flowchartDiv.className = 'mt-8 bg-blue-50 rounded-xl p-6 border-2 border-blue-200';
+                flowchartDiv.innerHTML = `
+                    <div class="text-center mb-6">
+                        <h3 class="text-2xl font-bold text-blue-800 mb-2">${guideId === 'engajamento' ? '🎯 Apresentação Completa' : guideId === 'boafoto' ? '📸 Guia Visual Completo' : '📊 Fluxograma Visual do Processo'}</h3>
+                        <p class="text-blue-600 mb-4">${guideId === 'engajamento' ? 'Acesse a apresentação completa com mais detalhes e exemplos práticos' : guideId === 'boafoto' ? 'Visualize o guia completo com exemplos visuais de boas práticas' : 'Visualize o fluxograma completo que ilustra todas as etapas descritas acima'}</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 shadow-inner text-center">
+                        <p class="text-gray-600 text-sm">${guideId === 'engajamento' ? 'Para acessar a apresentação completa e interativa, clique no botão abaixo' : guideId === 'boafoto' ? 'Para visualizar o guia completo com exemplos visuais, clique no botão abaixo' : 'Para visualizar o fluxograma completo e interativo, clique no botão abaixo'}</p>
+                    </div>
+                    <div class="text-center mt-4">
+                        <a href="${guide.flowchartUrl}" target="_blank" rel="noopener noreferrer" 
+                           class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                            </svg>
+                            Abrir em Tela Cheia
+                        </a>
+                    </div>
+                `;
+                steps.appendChild(flowchartDiv);
+            }
+        }
+
+        function backToHome() {
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            const content = document.getElementById('guideContent');
+            
+            content.classList.add('hidden');
+            welcomeMessage.classList.remove('hidden');
+            
+            // Restore the previous scroll position
+            window.scrollTo({ top: currentScrollPosition, behavior: 'smooth' });
         }
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98eab1e363b0f1a7',t:'MTc2MDQ4Mjg0Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
