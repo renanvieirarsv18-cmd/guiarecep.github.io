@@ -136,13 +136,13 @@
                                 <div class="menu-item p-2 cursor-pointer rounded-lg" onclick="showGuide('atualizacao')">
                                     <div class="flex items-center">
                                         <span class="text-sm mr-2">🔄</span>
-                                        <span class="text-gray-600 text-sm">Atualização Mensal (Começo de mês)</span>
+                                        <span class="text-gray-600 text-sm">Atualização Lista de Presença início de Mês</span>
                                     </div>
                                 </div>
                                 <div class="menu-item p-2 cursor-pointer rounded-lg" onclick="showGuide('fechamento')">
                                     <div class="flex items-center">
                                         <span class="text-sm mr-2">✅</span>
-                                        <span class="text-gray-600 text-sm">Fechamento Mensal</span>
+                                        <span class="text-gray-600 text-sm">Fechamento Mensal - Lista de Presença</span>
                                     </div>
                                 </div>
                             </div>
@@ -299,15 +299,27 @@
                         <span class="text-2xl mr-3">📊</span>
                         Fluxograma de Atividades
                     </h4>
+                    
+                    <!-- Lista de Presença -->
+                    <div class="mb-6">
+                        <h5 class="text-lg font-medium mb-3 flex items-center text-gray-700">
+                            <span class="text-xl mr-2">📋</span>
+                            Lista de Presença
+                        </h5>
+                        <div class="grid md:grid-cols-2 gap-4 ml-6">
+                            <button onclick="showGuide('atualizacao')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                                <div class="text-2xl mb-2">🔄</div>
+                                <div class="font-semibold text-sm">Atualização Lista de Presença início de Mês</div>
+                            </button>
+                            <button onclick="showGuide('fechamento')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
+                                <div class="text-2xl mb-2">✅</div>
+                                <div class="font-semibold text-sm">Fechamento Mensal - Lista de Presença</div>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Outras Atividades -->
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <button onclick="showGuide('atualizacao')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                            <div class="text-2xl mb-2">🔄</div>
-                            <div class="font-semibold">Atualização Mensal</div>
-                        </button>
-                        <button onclick="showGuide('fechamento')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                            <div class="text-2xl mb-2">✅</div>
-                            <div class="font-semibold">Fechamento Mensal</div>
-                        </button>
                         <button onclick="showGuide('videoaulas')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
                             <div class="text-2xl mb-2">🎥</div>
                             <div class="font-semibold">Videoaulas na Plataforma</div>
@@ -539,7 +551,7 @@
                 ]
             },
             atualizacao: {
-                title: "🔄 Atualização Mensal (Começo de mês)",
+                title: "🔄 Atualização Lista de Presença início de Mês",
                 hasFlowchart: true,
                 flowchartUrl: "https://www.canva.com/design/DAG1yvV7QLQ/XgFMb7sStTwuCsmqTHrlnA/view?utm_content=DAG1yvV7QLQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h5bb0612593",
                 steps: [
@@ -576,7 +588,7 @@
                 ]
             },
             fechamento: {
-                title: "✅ Fechamento Mensal",
+                title: "✅ Fechamento Mensal - Lista de Presença",
                 hasFlowchart: true,
                 flowchartUrl: "https://www.canva.com/design/DAG1ylMYQ_o/nXp7Fu7GC9jS0LbIUQ9TIQ/view?utm_content=DAG1ylMYQ_o&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc563e2457a",
                 steps: [
@@ -967,5 +979,5 @@
             window.scrollTo({ top: currentScrollPosition, behavior: 'smooth' });
         }
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98ead9baa15e877d',t:'MTc2MDQ4NDQ3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98eae3757633877d',t:'MTc2MDQ4NDg3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
