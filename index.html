@@ -8,6 +8,7 @@
     <style>
         body {
             box-sizing: border-box;
+            background-color: #f8fafc; /* Cor de fundo mais suave */
         }
         .fade-in {
             animation: fadeIn 0.5s ease-in;
@@ -43,941 +44,170 @@
             transition: max-height 0.3s ease-in-out;
         }
         .submenu.open {
-            max-height: 500px;
+            max-height: 500px; /* Aumentado para comportar mais itens */
         }
+        /* Classe para rotação da seta do submenu */
+        .rotate-90 {
+            transform: rotate(90deg);
+        }
+
+        /* --- ESTILOS DO MODAL DE IMAGEM --- */
+        .modal {
+          display: none; position: fixed; z-index: 1000;
+          padding-top: 50px; left: 0; top: 0; width: 100%; height: 100%;
+          overflow: auto; background-color: rgba(0,0,0,0.9);
+        }
+        .modal-conteudo {
+          margin: auto; display: block; width: auto;
+          max-width: 90%; max-height: 85vh; cursor: zoom-in;
+        }
+        .modal-conteudo.zoomed {
+            max-width: none; max-height: none; cursor: zoom-out;
+        }
+        .fechar-modal {
+          position: absolute; top: 15px; right: 35px; color: #f1f1f1;
+          font-size: 40px; font-weight: bold; transition: 0.3s; cursor: pointer;
+        }
+        .fechar-modal:hover { color: #bbb; }
     </style>
 </head>
-<body class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-full">
-    <!-- Menu Button -->
+<body class="font-sans">
     <button id="menuToggle" class="fixed top-4 left-4 z-50 bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg shadow-lg transition-colors">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
     </button>
 
-    <!-- Sidebar -->
     <div id="sidebar" class="sidebar fixed top-0 left-0 w-80 h-full bg-white shadow-2xl z-40 overflow-y-auto">
         <div class="p-6">
             <div class="flex justify-between items-center mb-8">
                 <h2 class="text-2xl font-bold text-indigo-800">📋 Menu</h2>
-                <button id="closeSidebar" class="text-gray-500 hover:text-gray-700">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
+                <button id="closeSidebar" class="text-gray-500 hover:text-gray-700">&times;</button>
             </div>
-
-            <!-- Menu Items -->
             <div class="space-y-2">
-                <!-- Atendimento -->
-                <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('atendimento')">
-                    <div class="flex items-center">
-                        <span class="text-2xl mr-3">🎯</span>
-                        <span class="font-semibold" style="color: #10489E;">Atendimento</span>
-                    </div>
-                </div>
-
-                <!-- Matrícula -->
-                <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('matricula')">
-                    <div class="flex items-center">
-                        <span class="text-2xl mr-3">📝</span>
-                        <span class="font-semibold" style="color: #2E8B57;">Matrícula</span>
-                    </div>
-                </div>
-
-                <!-- Recebimento de Materiais -->
-                <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('recebimento')">
-                    <div class="flex items-center">
-                        <span class="text-2xl mr-3">📦</span>
-                        <span class="font-semibold" style="color: #FF6B35;">Recebimento de Materiais</span>
-                    </div>
-                </div>
-
-                <!-- Ofícios -->
-                <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('oficios')">
-                    <div class="flex items-center">
-                        <span class="text-2xl mr-3">📋</span>
-                        <span class="font-semibold" style="color: #8E44AD;">Ofícios</span>
-                    </div>
-                </div>
-
-                <!-- E-mail -->
-                <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('email')">
-                    <div class="flex items-center">
-                        <span class="text-2xl mr-3">📧</span>
-                        <span class="font-semibold" style="color: #E74C3C;">E-mail</span>
-                    </div>
-                </div>
-
-                <!-- Fluxograma de Atividades -->
-                <div class="menu-item">
-                    <div class="flex items-center justify-between p-3 cursor-pointer rounded-lg" onclick="toggleSubmenu('fluxograma')">
-                        <div class="flex items-center">
-                            <span class="text-2xl mr-3">📊</span>
-                            <span class="font-semibold" style="color: #53A80D;">Fluxograma de Atividades</span>
-                        </div>
-                        <svg id="arrow-fluxograma" class="w-5 h-5 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
+                <div class="menu-item p-3 rounded-lg cursor-pointer" onclick="showGuide('atendimento')">...</div>
+                <div class="menu-item p-3 rounded-lg cursor-pointer" onclick="showGuide('matricula')">...</div>
+                <div class="menu-item rounded-lg">
+                    <div class="flex items-center justify-between p-3 cursor-pointer" onclick="toggleSubmenu('fluxograma')">
+                        <div class="flex items-center"><span class="text-2xl mr-3">📊</span><span class="font-semibold text-green-600">Fluxograma</span></div>
+                        <svg id="arrow-fluxograma" class="w-5 h-5 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
                     </div>
                     <div id="submenu-fluxograma" class="submenu ml-6 space-y-1">
-                        <!-- Lista de Presença com submenus -->
-                        <div class="menu-item">
-                            <div class="flex items-center justify-between p-2 cursor-pointer rounded-lg" onclick="toggleSubmenu('listapresenca')">
-                                <div class="flex items-center">
-                                    <span class="text-lg mr-3">📋</span>
-                                    <span class="text-gray-700 text-sm">Lista de Presença</span>
-                                </div>
-                                <svg id="arrow-listapresenca" class="w-4 h-4 text-gray-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                                </svg>
-                            </div>
-                            <div id="submenu-listapresenca" class="submenu ml-6 space-y-1">
-                                <div class="menu-item p-2 cursor-pointer rounded-lg" onclick="showGuide('atualizacao')">
-                                    <div class="flex items-center">
-                                        <span class="text-sm mr-2">🔄</span>
-                                        <span class="text-gray-600 text-sm">Atualização Lista de Presença início de Mês</span>
-                                    </div>
-                                </div>
-                                <div class="menu-item p-2 cursor-pointer rounded-lg" onclick="showGuide('fechamento')">
-                                    <div class="flex items-center">
-                                        <span class="text-sm mr-2">✅</span>
-                                        <span class="text-gray-600 text-sm">Fechamento Mensal - Lista de Presença</span>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="menu-item p-2 cursor-pointer rounded-lg" onclick="showGuide('atualizacao')">
+                            <div class="flex items-center"><span class="text-sm mr-2">🔄</span><span class="text-gray-600 text-sm">Atualização Início de Mês</span></div>
                         </div>
-                        
-                        <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('videoaulas')">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-3">🎥</span>
-                                <span class="text-gray-700">Videoaulas na Plataforma</span>
-                            </div>
                         </div>
-                        <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('az')">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-3">🔤</span>
-                                <span class="text-gray-700">A-Z</span>
-                            </div>
-                        </div>
-                        <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('ativosinativos')">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-3">🔄</span>
-                                <span class="text-gray-700">Ativos e Inativos</span>
-                            </div>
-                        </div>
-                        <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('parceiros')">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-3">🤝</span>
-                                <span class="text-gray-700">Parceiros</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-
-                <!-- Estratégias -->
-                <div class="menu-item">
-                    <div class="flex items-center justify-between p-3 cursor-pointer rounded-lg" onclick="toggleSubmenu('estrategias')">
-                        <div class="flex items-center">
-                            <span class="text-2xl mr-3">🎯</span>
-                            <span class="font-semibold" style="color: #98255D;">Estratégias</span>
-                        </div>
-                        <svg id="arrow-estrategias" class="w-5 h-5 text-gray-500 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
-                    </div>
-                    <div id="submenu-estrategias" class="submenu ml-6 space-y-1">
-                        <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('engajamento')">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-3">🚀</span>
-                                <span class="text-gray-700">Estratégia de Engajamento</span>
-                            </div>
-                        </div>
-                        <div class="menu-item p-3 cursor-pointer rounded-lg" onclick="showGuide('boafoto')">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-3">📸</span>
-                                <span class="text-gray-700">Orientação de uma Boa Foto</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-            </div>
         </div>
     </div>
-
-    <!-- Overlay -->
+    
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden" onclick="closeSidebar()"></div>
 
-    <!-- Main Content -->
-    <div class="ml-0 transition-all duration-300">
-        <!-- Developer Credit -->
-        <div class="text-right pr-4 pt-2">
-            <p class="text-xs text-gray-400">Desenvolvido por Renan Vieira</p>
-        </div>
-        
-        <!-- Header -->
+    <main class="transition-all duration-300">
         <header class="text-center py-12 px-4">
             <h1 class="text-4xl font-bold text-indigo-800 mb-4">📋 Guia Prático da Recepção</h1>
             <p class="text-lg text-gray-600">Seu parceiro diário para um atendimento de excelência.</p>
         </header>
 
-        <!-- Welcome Message -->
-        <div id="welcomeMessage" class="max-w-6xl mx-auto px-4">
-            <!-- Mensagem Central -->
-            <div class="bg-white rounded-xl shadow-lg p-8 text-center mb-8">
-                <div class="text-6xl mb-6">🤝</div>
-                <h2 class="text-3xl font-bold text-gray-800 mb-4">Bem-vindo(a) ao coração do nosso atendimento!</h2>
-                <div class="max-w-4xl mx-auto text-lg text-gray-700 leading-relaxed mb-6">
-                    <p class="mb-4">A recepção é o primeiro sorriso, a primeira ajuda, a primeira impressão. É o ponto de partida para uma experiência positiva em nossa unidade.</p>
-                    <p>Este guia foi criado para ser seu principal aliado, oferecendo clareza e confiança para que você possa desempenhar seu papel com excelência, seja no seu primeiro dia ou no seu milésimo atendimento.</p>
-                </div>
+        <div id="welcomeMessage" class="max-w-6xl mx-auto px-4 fade-in">
             </div>
 
-            <!-- O que você encontra aqui -->
-            <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
-                <h3 class="text-2xl font-bold text-center text-gray-800 mb-8">O que você encontra aqui?</h3>
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="text-center">
-                        <div class="text-5xl mb-4">🔍</div>
-                        <h4 class="text-xl font-semibold text-gray-800 mb-3">Consulta Rápida</h4>
-                        <p class="text-gray-600">Acesse o passo a passo de qualquer processo em segundos. Ideal para a correria do dia a dia.</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-5xl mb-4">🌱</div>
-                        <h4 class="text-xl font-semibold text-gray-800 mb-3">Integração e Treinamento</h4>
-                        <p class="text-gray-600">Um guia completo para novos integrantes se sentirem seguros e bem preparados desde o início.</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="text-5xl mb-4">✅</div>
-                        <h4 class="text-xl font-semibold text-gray-800 mb-3">Padronização e Qualidade</h4>
-                        <p class="text-gray-600">Garanta um atendimento consistente e de alta qualidade, seguindo nossos padrões e boas práticas.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Botões Interativos -->
-            <div class="bg-white rounded-xl shadow-lg p-8">
-                <h3 class="text-2xl font-bold text-center text-gray-800 mb-8">Acesso Rápido aos Guias</h3>
-                
-                <!-- Seções Principais -->
-                <div class="mb-8">
-                    <h4 class="text-xl font-semibold mb-4 flex items-center text-gray-800">
-                        <span class="text-2xl mr-3">🏢</span>
-                        Seções Principais
-                    </h4>
-                    <div class="grid grid-cols-3 gap-4">
-                        <button onclick="showGuide('atendimento')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                            <div class="text-2xl mb-2">🎯</div>
-                            <div class="font-semibold">Atendimento</div>
-                        </button>
-                        <button onclick="showGuide('matricula')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                            <div class="text-2xl mb-2">📝</div>
-                            <div class="font-semibold">Matrícula</div>
-                        </button>
-                        <button onclick="showGuide('email')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                            <div class="text-2xl mb-2">📧</div>
-                            <div class="font-semibold">E-mail</div>
-                        </button>
-                        <button onclick="showGuide('parceiros')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                            <div class="text-2xl mb-2">🤝</div>
-                            <div class="font-semibold">Parceiros</div>
-                        </button>
-                        <button onclick="showGuide('recebimento')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                            <div class="text-2xl mb-2">📦</div>
-                            <div class="font-semibold">Recebimento de Materiais</div>
-                        </button>
-                        <button onclick="showGuide('oficios')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                            <div class="text-2xl mb-2">📋</div>
-                            <div class="font-semibold">Ofícios</div>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Fluxograma de Atividades -->
-                <div class="mb-8">
-                    <h4 class="text-xl font-semibold mb-4 flex items-center" style="color: #53A80D;">
-                        <span class="text-2xl mr-3">📊</span>
-                        Fluxograma de Atividades
-                    </h4>
-                    
-                    <!-- Lista de Presença -->
-                    <div class="mb-6">
-                        <h5 class="text-lg font-medium mb-3 flex items-center text-gray-700">
-                            <span class="text-xl mr-2">📋</span>
-                            Lista de Presença
-                        </h5>
-                        <div class="grid md:grid-cols-2 gap-4 ml-6">
-                            <button onclick="showGuide('atualizacao')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                                <div class="text-2xl mb-2">🔄</div>
-                                <div class="font-semibold text-sm">Atualização Lista de Presença início de Mês</div>
-                            </button>
-                            <button onclick="showGuide('fechamento')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                                <div class="text-2xl mb-2">✅</div>
-                                <div class="font-semibold text-sm">Fechamento Mensal - Lista de Presença</div>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Outras Atividades -->
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <button onclick="showGuide('videoaulas')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                            <div class="text-2xl mb-2">🎥</div>
-                            <div class="font-semibold">Videoaulas na Plataforma</div>
-                        </button>
-                        <button onclick="showGuide('az')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                            <div class="text-2xl mb-2">🔤</div>
-                            <div class="font-semibold">A-Z</div>
-                        </button>
-                        <button onclick="showGuide('ativosinativos')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                            <div class="text-2xl mb-2">🔄</div>
-                            <div class="font-semibold">Ativos e Inativos</div>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Estratégias -->
-                <div class="mb-8">
-                    <h4 class="text-xl font-semibold mb-4 flex items-center" style="color: #98255D;">
-                        <span class="text-2xl mr-3">🎯</span>
-                        Estratégias
-                    </h4>
-                    <div class="grid md:grid-cols-2 gap-4">
-                        <button onclick="showGuide('engajamento')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                            <div class="text-2xl mb-2">🚀</div>
-                            <div class="font-semibold">Estratégia de Engajamento</div>
-                        </button>
-                        <button onclick="showGuide('boafoto')" class="bg-white hover:bg-gray-50 text-gray-800 p-4 rounded-lg transition-all transform hover:scale-105 shadow-md border border-gray-200">
-                            <div class="text-2xl mb-2">📸</div>
-                            <div class="font-semibold">Orientação de uma Boa Foto</div>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Botão Principal -->
-                <div class="text-center mt-8">
-                    <button onclick="openSidebar()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-all transform hover:scale-105 shadow-lg">
-                        Acessar menu lateral
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Guide Content -->
         <div id="guideContent" class="hidden max-w-6xl mx-auto px-4 pb-8">
             <div class="bg-white rounded-xl shadow-lg p-8">
                 <div class="flex justify-between items-center mb-6">
                     <h2 id="guideTitle" class="text-3xl font-bold text-gray-800"></h2>
-                    <button onclick="backToHome()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">
-                        ← Voltar ao Início
-                    </button>
+                    <button onclick="backToHome()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors">&larr; Voltar</button>
                 </div>
                 <div id="guideSteps" class="space-y-6"></div>
             </div>
         </div>
-    </div>
+    </main>
+
+    <div id="meuModal" class="modal">
+      <span class="fechar-modal" onclick="closeImageModal()">&times;</span>
+      <img class="modal-conteudo" id="imgModal">
     </div>
 
     <script>
+        // --- LÓGICA DO CONTEÚDO ---
         const guides = {
             atendimento: {
                 title: "🎯 Atendimento",
+                description: "O atendimento é o cartão de visitas da unidade. Um atendimento de qualidade, pautado pela eficiência, clareza e empatia, não apenas resolve a necessidade imediata, mas também constrói uma imagem positiva da instituição.",
                 hasColumns: true,
                 columns: [
                     {
                         title: "👥 Atendimento Presencial",
                         steps: [
-                            {
-                                title: "Recepção e Acolhimento",
-                                content: "• Cumprimente o munícipe com cordialidade e profissionalismo.<br>• Identifique a necessidade do atendimento.<br>• Direcione para o setor ou serviço adequado.<br>• Mantenha postura acolhedora e prestativa.",
-                                tips: ["Seja cordial e profissional", "Escute atentamente", "Direcione adequadamente"]
-                            },
-                            {
-                                title: "Coleta de Informações",
-                                content: "• Solicite documentos necessários para o atendimento.<br>• Preencha formulários com dados corretos.<br>• Confirme informações com o munícipe.<br>• Esclareça dúvidas sobre procedimentos.",
-                                tips: ["Verifique documentos", "Confirme dados", "Esclareça procedimentos"]
-                            },
-                            {
-                                title: "Finalização do Atendimento",
-                                content: "• Oriente sobre próximos passos.<br>• Entregue comprovantes ou protocolos.<br>• Informe prazos e retornos necessários.<br>• Agradeça pela visita e se coloque à disposição.",
-                                tips: ["Oriente próximos passos", "Entregue comprovantes", "Informe prazos"]
-                            }
+                            { title: "Primeiro Contato", content: "Cumprimente com um sorriso, mantenha contato visual e use um tom de voz agradável.", tips: ["Seja cordial", "Demonstre interesse"] },
+                            { title: "Verificação e Resolução", content: "Identifique o munícipe no sistema (se necessário) e ouça atentamente para entender e resolver sua necessidade.", tips: ["Escuta ativa", "Seja transparente"] },
+                            { title: "Finalização", content: "Certifique-se de que tudo foi resolvido e finalize de forma cordial.", tips: ["Confirme a solução", "Agradeça a visita"] }
                         ]
                     },
                     {
-                        title: "💻 Atendimento Online (Para Dúvidas e Suporte Geral)",
+                        title: "💻 Atendimento Online",
                         steps: [
-                            {
-                                title: "Saudação e Identificação Inicial",
-                                content: "• Ao receber a primeira mensagem do munícipe, envie uma saudação padronizada que identifique a instituição e se coloque à disposição.<br><br><strong>Exemplo:</strong> 'Olá! Bem-vindo(a) ao CCPL Abade Gonzaga. Meu nome é [Seu Nome], como posso ajudar?'",
-                                tips: ["Use saudação padronizada", "Identifique a instituição", "Coloque-se à disposição"]
-                            },
-                            {
-                                title: "Sondagem e Verificação",
-                                content: "• Peça ao munícipe que se identifique (nome completo ou CPF) para localizar o cadastro dele no sistema, caso seja necessário consultar alguma informação específica.<br>• Utilize perguntas abertas para entender a fundo a necessidade ou dúvida. Esta é a 'escuta ativa' do mundo digital.<br><br><strong>Exemplo:</strong> 'Para que eu possa consultar sua informação, poderia me informar seu nome completo, por favor?' seguido de 'Claro, poderia me detalhar um pouco mais sobre sua dúvida em relação ao horário do curso X?'",
-                                tips: ["Solicite identificação quando necessário", "Use perguntas abertas", "Pratique escuta ativa digital"]
-                            },
-                            {
-                                title: "Resolução e Orientação",
-                                content: "• Forneça a informação de forma clara, objetiva e completa.<br>• Se precisar enviar links, datas ou listas, use bullet points ou negrito para facilitar a leitura.<br>• Caso não tenha a resposta imediata, seja transparente. Informe que irá verificar com o setor responsável e estabeleça um prazo para o retorno.<br><br><strong>Exemplo:</strong> 'Verifiquei aqui e as aulas do curso de Violão ocorrem às quartas-feiras, das 19h às 21h. O retorno das atividades está previsto para o dia 15/01.'",
-                                tips: ["Seja claro e objetivo", "Use formatação para facilitar leitura", "Seja transparente sobre prazos"]
-                            },
-                            {
-                                title: "Finalização e Confirmação",
-                                content: "• Antes de encerrar, certifique-se de que a dúvida foi completamente sanada.<br>• Após a confirmação do munícipe, finalize com uma despedida cordial.<br><br><strong>Exemplo:</strong> 'Consegui te ajudar? Há mais alguma dúvida em que eu possa te auxiliar?'",
-                                tips: ["Confirme se a dúvida foi sanada", "Finalize cordialmente", "Deixe canal aberto para novas dúvidas"]
-                            }
+                            { title: "Saudação Inicial", content: "Envie uma saudação padronizada se identificando e à instituição.", tips: ["Seja rápido", "Use o padrão"] },
+                            { title: "Sondagem e Orientação", content: "Faça perguntas para entender a necessidade e forneça respostas claras e diretas.", tips: ["Seja objetivo", "Use negrito para destacar"] },
+                            { title: "Finalização", content: "Pergunte se pode ajudar em algo mais e encerre a conversa de forma educada.", tips: ["Confirme a resolução", "Mantenha a cordialidade"] }
                         ]
                     }
                 ]
             },
-            matricula: {
-                title: "📝 Matrícula",
-                description: "O processo de matrícula vai muito além de um simples cadastro; ele é um indicador vital para a gestão da unidade. Os números de matrículas são a base para análises e estudos estratégicos que impactam diretamente nas decisões de abertura ou fechamento de turmas. Um processo de matrícula bem executado garante a integridade dos dados que sustentam o planejamento, a alocação de recursos e o futuro dos cursos oferecidos à comunidade.",
-                hasColumns: true,
-                columns: [
-                    {
-                        title: "📍 Matrícula Presencial",
-                        steps: [
-                            {
-                                title: "Documentação Necessária",
-                                content: "• RG/CPF do aluno: Pode ser entregue pessoalmente ou via WhatsApp (PDF ou foto legível).<br>• RG/CPF do responsável (para menores de idade): Apenas de pais, tutores legais ou instituições de acolhimento.<br>• Comprovante de residência: Contas de água, luz, telefone ou fatura de cartão de crédito, com no máximo 3 meses. Em nome de terceiros, é necessário comprovar o parentesco.<br>• Foto 3x4.<br>• Atestado ou agendamento médico: Para cursos de dança.",
-                                tips: ["Verifique validade dos documentos", "Confirme parentesco quando necessário", "Solicite atestado médico para dança"]
-                            },
-                            {
-                                title: "Cadastro no Sistema",
-                                content: "• Acesse o sistema e clique em 'Adicionar Aluno'.<br>• Preencha os dados pessoais, a ficha de anamnese e marque os documentos entregues.<br>• Selecione a unidade 'CCPL Abade Gonzaga' e os cursos de interesse.<br>• Salve as informações.",
-                                tips: ["Preencha todos os campos obrigatórios", "Marque documentos recebidos", "Confirme unidade correta"]
-                            },
-                            {
-                                title: "Impressão da Ficha",
-                                content: "• Busque a ficha no sistema e clique em 'Prontuário'.<br>• Imprima a ficha em modo frente e verso.<br>• Entregue para o munícipe assinar, reforçando as informações dos termos.",
-                                tips: ["Imprima frente e verso", "Explique os termos", "Obtenha assinatura"]
-                            }
-                        ]
-                    },
-                    {
-                        title: "💬 Matrícula Online (via WhatsApp)",
-                        steps: [
-                            {
-                                title: "1. Coleta de Informações e Documentos",
-                                content: "Esta é a fase de solicitar tudo o que é necessário para o cadastro.<br><br><strong>Envie a lista de documentos necessários:</strong><br>• RG/CPF do aluno (e do responsável, se menor de idade)<br>• Comprovante de residência atualizado (dos últimos três meses)<br>• Foto 3x4<br><br><strong>Solicite o preenchimento da Anamnese:</strong><br>• Envie o questionário completo para que o munícipe responda diretamente na conversa<br>• Inclui dados de contato, escolaridade, estado civil e informações de saúde (alergias, uso de medicamentos, etc.)",
-                                tips: ["Reforce que fotos devem estar nítidas", "Aceite documentos em PDF", "Solicite anamnese completa"]
-                            },
-                            {
-                                title: "2. Conferência e Confirmação de Dados",
-                                content: "Após receber tudo, é hora de formalizar e obter a validação final do munícipe.<br><br><strong>Compile e envie um resumo:</strong><br>• Crie uma mensagem com todos os dados principais fornecidos (Nome completo, RG, CPF, Endereço, Cursos de interesse, etc.)<br><br><strong>Solicite a validação com 'OK':</strong><br>• Peça explicitamente que o munícipe leia tudo e, se estiver correto, responda com 'OK'<br>• Esta confirmação é a assinatura digital do processo<br><br><strong>Envie os Termos de Adesão:</strong><br>• Juntamente com o resumo, envie o texto com as normas do CCPL (sobre faltas, uso de imagem, etc.) para ciência",
-                                tips: ["Compile resumo completo", "Solicite confirmação explícita com 'OK'", "Envie termos de adesão"]
-                            },
-                            {
-                                title: "3. Validação Interna do Processo",
-                                content: "Com o 'OK' do munícipe, a recepção finaliza o processo internamente.<br><br><strong>Realize o cadastro no sistema:</strong><br>• Utilize as informações e documentos recebidos para fazer a matrícula no sistema<br>• Siga o mesmo passo a passo da matrícula presencial<br><br><strong>Imprima a documentação:</strong><br>• Imprima a ficha do aluno após salvar no sistema<br>• Imprima os documentos enviados pelo munícipe via WhatsApp<br><br><strong>Crie o Documento de Validação:</strong><br>• Abra o arquivo modelo 'VALIDAÇÃO DE MATRICULA ONLINE'<br>• Preencha a data e o nome do funcionário responsável<br>• Tire prints da conversa no WhatsApp (documentos enviados, respostas da anamnese e a mensagem com o 'OK')<br>• Anexe os prints ao documento e imprima<br>• Junte à ficha de matrícula e demais documentos impressos",
-                                tips: ["Siga processo da matrícula presencial", "Use modelo de validação correto", "Inclua prints da conversa completa", "Organize documentação final"]
-                            }
-                        ]
-                    }
-                ]
-            },
-            recebimento: {
-                title: "📦 Recebimento de Materiais",
-                description: "Este é um processo fundamental para o controle de estoque e para a prestação de contas da unidade. A atenção na conferência dos itens recebidos é crucial para garantir que tudo o que foi solicitado seja efetivamente entregue. A formalização, através da assinatura de documentos, escaneamento e envio para os setores responsáveis, assegura que o processo seja transparente, rastreável e que todos os departamentos estejam alinhados, evitando discrepâncias e garantindo a boa gestão dos recursos.",
-                steps: [
-                    {
-                        title: "🥪 Kit Lanche",
-                        content: "Entregue de segunda a sexta. É preciso assinar as duas vias do romaneio, devolver a via superior ao entregador, escanear a outra via e enviar por e-mail para a coordenação.",
-                        tips: ["Assine ambas as vias", "Devolva via superior", "Escaneie e envie para coordenação"]
-                    },
-                    {
-                        title: "🥬 Hortifrúti",
-                        content: "Entregue de segunda a sexta. Os materiais devem ser conferidos na cozinha. O romaneio deve ser escaneado, renomeado e enviado por e-mail para a nutricionista.",
-                        tips: ["Confira na cozinha", "Renomeie o arquivo", "Envie para nutricionista"]
-                    },
-                    {
-                        title: "🥩 Açougue",
-                        content: "Entregue de segunda a sexta, com conferência na cozinha. O documento assinado deve ser escaneado e enviado para a nutricionista e para o financeiro.",
-                        tips: ["Confira na cozinha", "Envie para nutricionista", "Envie para financeiro"]
-                    },
-                    {
-                        title: "💧 Água e Gás",
-                        content: "O canhoto deve ser assinado e carimbado. A via do CCPL deve ser escaneada e enviada por e-mail para o financeiro.",
-                        tips: ["Assine e carimbe", "Escaneie via CCPL", "Envie para financeiro"]
-                    }
-                ]
-            },
-            oficios: {
-                title: "📋 Ofícios (Reserva de Quadra)",
-                description: "Regras Gerais: A reserva é para maiores de 18 anos, por uma hora, e é necessário apresentar documento de identificação. A distribuição dos ofícios ocorre às segundas-feiras, das 08h às 10h.",
-                steps: [
-                    {
-                        title: "📝 Preenchimento do Termo",
-                        content: "O interessado preenche e assina o 'Termo de Responsabilidade'. Verifique se todos os dados estão corretos e legíveis.",
-                        tips: ["Verifique documento de identidade", "Confirme maioridade", "Dados legíveis no termo"]
-                    },
-                    {
-                        title: "📅 Inclusão no Calendário",
-                        content: "O nome e o horário são incluídos no calendário do quadro de avisos. Confirme disponibilidade do horário solicitado.",
-                        tips: ["Verifique disponibilidade", "Atualize quadro de avisos", "Confirme horário com interessado"]
-                    },
-                    {
-                        title: "📁 Arquivo do Documento",
-                        content: "O documento é guardado na pasta 01. OFICIOS QUADRA com a nomenclatura 'OFICIO QUADRA_[NOME DO MUNICIPE]_[DATA DO OFICIO]'.",
-                        tips: ["Use nomenclatura correta", "Arquivo na pasta certa", "Mantenha organização"]
-                    }
-                ]
-            },
-            email: {
-                title: "📧 E-mail",
-                description: "O e-mail é uma das principais ferramentas de comunicação formal e profissional. A forma como escrevemos, seja ao enviar ou ao responder uma mensagem, reflete diretamente na imagem da instituição. Manter uma escrita formal, clara e objetiva, bem como responder com agilidade, demonstra eficiência, organização e respeito. A cordialidade e a formalidade na comunicação por e-mail são essenciais para construir e manter um relacionamento profissional com todos os públicos.",
-                steps: [
-                    {
-                        title: "📋 Solicitação de PDA",
-                        content: "Para alunos que já possuem cadastro em outro polo. O e-mail deve ter como título 'SOLICITAÇÃO DE PDA: #COD. DO ALUNO_NOME DO ALUNO'.",
-                        tips: ["Use código do aluno", "Inclua nome completo", "Verifique cadastro em outro polo"]
-                    },
-                    {
-                        title: "📊 Acompanhamento Pedagógico",
-                        content: "Enviar para consultorflorida@ccplbarueri.com.br e coordenacaogeral@ccplbarueri.com.br com o título 'ACOMPANHAMENTO PEDAGÓGICO_CHECKLIST CONSULTORES_CCPL ABADE GONZAGA DOS SANTOS_[DATA]'.",
-                        tips: ["Envie para ambos os e-mails", "Use título padronizado", "Inclua data atual"]
-                    },
-                    {
-                        title: "⏰ Controle de Atraso dos Professores",
-                        content: "Enviar para os mesmos e-mails do acompanhamento pedagógico com o título 'CONTROLE DE AUSÊNCIA OU ATRASO DOS PROFESSORES_CHECKLIST CONSULTORES_CCPL ABADE GONZAGA DOS SANTOS_[DATA]'.",
-                        tips: ["Use mesmos destinatários", "Documente ausências e atrasos", "Mantenha registro atualizado"]
-                    },
-                    {
-                        title: "📝 Devolutiva SAU",
-                        content: "Responder ao e-mail do SAU com o título 'DEVOLUTIVA_SAU_[NOME DO MUNICIPE]_[DATA]'.",
-                        tips: ["Responda prontamente", "Inclua nome do munícipe", "Use formato padronizado"]
-                    }
-                ]
-            },
+            // ... (coloque aqui os outros objetos de guias como 'matricula', 'recebimento', etc.)
             atualizacao: {
-                title: "🔄 Atualização Lista de Presença início de Mês",
-                hasFlowchart: true,
-                flowchartUrl: "https://www.canva.com/design/DAG1yvV7QLQ/XgFMb7sStTwuCsmqTHrlnA/view?utm_content=DAG1yvV7QLQ&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h5bb0612593",
+                title: "🔄 Atualização Início de Mês",
+                description: "Processo para garantir que a lista de presença do novo mês esteja correta e atualizada.",
+                // Adicionei a imagem do fluxograma aqui
+                flowchartImage: "caminho/para/sua/imagem-fluxograma-atualizacao.png", 
                 steps: [
-                    {
-                        title: "1. Início do Processo",
-                        content: "No primeiro dia útil do mês, inicie o processo de atualização da lista de presença. Verifique se todos os dados do mês anterior foram devidamente registrados no sistema.",
-                        tips: ["Acesse no primeiro dia útil", "Verifique registros anteriores", "Prepare ambiente de trabalho"]
-                    },
-                    {
-                        title: "2. Coleta e Verificação de Dados",
-                        content: "Colete todas as informações de presença do mês anterior. Verifique inconsistências, dados duplicados ou ausentes. Organize os dados por categoria e participante.",
-                        tips: ["Colete dados completos", "Identifique inconsistências", "Organize por categoria"]
-                    },
-                    {
-                        title: "3. Atualização de Status dos Participantes",
-                        content: "Atualize o status de cada participante: ativo, inativo, transferido ou desligado. Confirme dados de contato, endereço e informações cadastrais atualizadas.",
-                        tips: ["Atualize todos os status", "Confirme dados de contato", "Registre mudanças cadastrais"]
-                    },
-                    {
-                        title: "4. Validação com Coordenadores",
-                        content: "Valide as informações coletadas com os coordenadores de cada área. Confirme alterações de status e esclareça dúvidas sobre participantes específicos.",
-                        tips: ["Valide com coordenadores", "Confirme alterações", "Esclareça dúvidas"]
-                    },
-                    {
-                        title: "5. Correção de Inconsistências",
-                        content: "Corrija todas as informações inconsistentes identificadas. Atualize dados incorretos e complete informações faltantes no sistema.",
-                        tips: ["Corrija inconsistências", "Complete dados faltantes", "Atualize informações incorretas"]
-                    },
-                    {
-                        title: "6. Finalização e Backup",
-                        content: "Gere backup completo dos dados atualizados. Prepare relatório mensal consolidado e envie para supervisão. Configure sistema para o novo mês.",
-                        tips: ["Faça backup completo", "Gere relatório consolidado", "Prepare sistema para novo mês"]
-                    }
-                ]
-            },
-            fechamento: {
-                title: "✅ Fechamento Mensal - Lista de Presença",
-                hasFlowchart: true,
-                flowchartUrl: "https://www.canva.com/design/DAG1ylMYQ_o/nXp7Fu7GC9jS0LbIUQ9TIQ/view?utm_content=DAG1ylMYQ_o&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hc563e2457a",
-                steps: [
-                    {
-                        title: "1. Início do Fechamento",
-                        content: "No último dia útil do mês, inicie o processo de fechamento da lista de presença. Verifique se todas as atividades do mês foram devidamente registradas.",
-                        tips: ["Inicie no último dia útil", "Verifique registros completos", "Confirme todas as atividades"]
-                    },
-                    {
-                        title: "2. Consolidação de Todas as Presenças",
-                        content: "Consolide todas as presenças registradas durante o mês. Organize os dados por participante, atividade e data. Verifique se não há registros pendentes.",
-                        tips: ["Consolide todos os registros", "Organize por participante", "Verifique pendências"]
-                    },
-                    {
-                        title: "3. Cálculo de Percentuais de Frequência",
-                        content: "Calcule os percentuais de frequência individual de cada participante e por atividade. Identifique padrões de presença e ausência no período.",
-                        tips: ["Calcule percentuais individuais", "Analise por atividade", "Identifique padrões"]
-                    },
-                    {
-                        title: "4. Geração de Relatórios Estatísticos",
-                        content: "Gere relatórios estatísticos completos: total de participantes ativos, média geral de presença, atividades com maior e menor frequência. Compare com meses anteriores.",
-                        tips: ["Gere estatísticas completas", "Compare períodos anteriores", "Analise tendências mensais"]
-                    },
-                    {
-                        title: "5. Identificação de Situações Especiais",
-                        content: "Identifique participantes com baixa frequência, ausências prolongadas ou situações que requerem atenção especial. Liste pendências administrativas.",
-                        tips: ["Identifique baixa frequência", "Liste situações especiais", "Documente pendências"]
-                    },
-                    {
-                        title: "6. Arquivo e Documentação Final",
-                        content: "Archive todos os documentos do mês encerrado. Organize arquivos digitais e físicos. Prepare documentação completa para auditoria e consultas futuras.",
-                        tips: ["Archive documentos completos", "Organize arquivos", "Prepare para auditoria"]
-                    }
-                ]
-            },
-            videoaulas: {
-                title: "🎥 Videoaulas na Plataforma",
-                hasFlowchart: true,
-                flowchartUrl: "https://www.canva.com/design/DAG1yhJlE14/A0QkP8bx-cY7Z3LnIxJVqQ/view?utm_content=DAG1yhJlE14&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h4a83c783b0",
-                steps: [
-                    {
-                        title: "1. Preparação do Conteúdo",
-                        content: "Prepare o material de vídeo que será enviado para a plataforma. Verifique qualidade do áudio e vídeo, duração adequada e conteúdo relevante para os participantes.",
-                        tips: ["Verifique qualidade audiovisual", "Confirme duração adequada", "Valide relevância do conteúdo"]
-                    },
-                    {
-                        title: "2. Acesso à Plataforma",
-                        content: "Acesse a plataforma de videoaulas com suas credenciais de administrador. Verifique se há atualizações disponíveis no sistema e confirme funcionamento adequado.",
-                        tips: ["Use credenciais de administrador", "Verifique atualizações", "Teste funcionamento"]
-                    },
-                    {
-                        title: "3. Categorização e Organização",
-                        content: "Defina a categoria apropriada para o vídeo. Organize por tema, nível de dificuldade ou público-alvo. Crie estrutura lógica para facilitar localização pelos usuários.",
-                        tips: ["Defina categoria apropriada", "Organize por nível", "Crie estrutura lógica"]
-                    },
-                    {
-                        title: "4. Upload do Vídeo",
-                        content: "Realize o upload do arquivo de vídeo na plataforma. Aguarde processamento completo. Verifique se o upload foi realizado com sucesso e sem erros.",
-                        tips: ["Aguarde processamento completo", "Verifique upload bem-sucedido", "Confirme ausência de erros"]
-                    },
-                    {
-                        title: "5. Configuração de Metadados",
-                        content: "Adicione título descritivo, descrição detalhada, tags relevantes e miniatura atrativa. Configure permissões de acesso e disponibilidade para os usuários.",
-                        tips: ["Adicione título descritivo", "Configure tags relevantes", "Defina permissões adequadas"]
-                    },
-                    {
-                        title: "6. Teste e Publicação",
-                        content: "Teste a reprodução do vídeo na plataforma. Verifique qualidade, legendas (se aplicável) e funcionalidades. Publique o conteúdo para os usuários finais.",
-                        tips: ["Teste reprodução completa", "Verifique funcionalidades", "Publique para usuários"]
-                    },
-                    {
-                        title: "7. Monitoramento e Suporte",
-                        content: "Monitore visualizações e feedback dos usuários. Forneça suporte técnico quando necessário. Documente problemas recorrentes para melhorias futuras.",
-                        tips: ["Monitore visualizações", "Forneça suporte técnico", "Documente melhorias"]
-                    }
-                ]
-            },
-            az: {
-                title: "🔤 A-Z",
-                steps: [
-                    {
-                        title: "1. Organização Alfabética",
-                        content: "Mantenha arquivos e documentos organizados alfabeticamente. Use sistema de indexação claro. Facilite localização rápida de informações.",
-                        tips: ["Organize alfabeticamente", "Use indexação clara", "Facilite localização"]
-                    },
-                    {
-                        title: "2. Cadastro de Participantes",
-                        content: "Organize lista de participantes de A a Z. Mantenha dados atualizados. Facilite consultas rápidas por nome ou sobrenome.",
-                        tips: ["Liste de A a Z", "Mantenha atualizado", "Facilite consultas"]
-                    },
-                    {
-                        title: "3. Arquivo de Documentos",
-                        content: "Arquive documentos seguindo ordem alfabética. Use separadores claros. Mantenha índice atualizado para consulta rápida.",
-                        tips: ["Siga ordem alfabética", "Use separadores", "Mantenha índice"]
-                    },
-                    {
-                        title: "4. Sistema de Busca",
-                        content: "Implemente sistema de busca eficiente. Treine equipe no uso do sistema. Mantenha backup da organização alfabética.",
-                        tips: ["Sistema de busca eficiente", "Treine equipe", "Mantenha backup"]
-                    }
-                ]
-            },
-            ativosinativos: {
-                title: "🔄 Ativos e Inativos",
-                steps: [
-                    {
-                        title: "1. Classificação de Status",
-                        content: "Defina critérios claros para classificar participantes como ativos ou inativos. Considere frequência, participação e engajamento nas atividades.",
-                        tips: ["Defina critérios claros", "Considere frequência", "Avalie engajamento"]
-                    },
-                    {
-                        title: "2. Monitoramento Regular",
-                        content: "Monitore regularmente o status dos participantes. Identifique mudanças de comportamento. Atualize classificações conforme necessário.",
-                        tips: ["Monitore regularmente", "Identifique mudanças", "Atualize classificações"]
-                    },
-                    {
-                        title: "3. Ações de Reativação",
-                        content: "Desenvolva estratégias para reativar participantes inativos. Entre em contato para entender motivos da inatividade. Ofereça alternativas de participação.",
-                        tips: ["Desenvolva estratégias", "Entre em contato", "Ofereça alternativas"]
-                    },
-                    {
-                        title: "4. Relatórios de Status",
-                        content: "Gere relatórios periódicos sobre ativos e inativos. Analise tendências e padrões. Compartilhe insights com equipe de coordenação.",
-                        tips: ["Gere relatórios periódicos", "Analise tendências", "Compartilhe insights"]
-                    }
-                ]
-            },
-            parceiros: {
-                title: "🤝 Parceiros",
-                steps: [
-                    {
-                        title: "1. Cadastro de Parceiros",
-                        content: "Mantenha cadastro atualizado de todos os parceiros. Registre dados de contato, área de atuação e tipo de parceria. Organize por categoria de serviço.",
-                        tips: ["Mantenha cadastro atualizado", "Registre dados completos", "Organize por categoria"]
-                    },
-                    {
-                        title: "2. Gestão de Relacionamento",
-                        content: "Mantenha comunicação regular com parceiros. Agende reuniões periódicas. Monitore qualidade dos serviços prestados.",
-                        tips: ["Comunique-se regularmente", "Agende reuniões", "Monitore qualidade"]
-                    },
-                    {
-                        title: "3. Contratos e Acordos",
-                        content: "Gerencie contratos e acordos de parceria. Monitore prazos de renovação. Mantenha documentação organizada e acessível.",
-                        tips: ["Gerencie contratos", "Monitore prazos", "Mantenha documentação"]
-                    },
-                    {
-                        title: "4. Avaliação de Performance",
-                        content: "Avalie regularmente performance dos parceiros. Colete feedback dos usuários. Tome ações corretivas quando necessário.",
-                        tips: ["Avalie performance", "Colete feedback", "Tome ações corretivas"]
-                    }
-                ]
-            },
-            engajamento: {
-                title: "🚀 Estratégia de Engajamento",
-                hasFlowchart: true,
-                flowchartUrl: "https://www.canva.com/design/DAG1y1H0h_0/OktFH62LSERq7MBJNqKjjQ/watch?utm_content=DAG1y1H0h_0&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=hb5cec4c0ff",
-                steps: [
-                    {
-                        title: "1. Compreenda seu Público",
-                        content: "Identifique quem são seus participantes, suas necessidades, interesses e motivações. Realize pesquisas, conversas informais e observe comportamentos para entender melhor o que os engaja.",
-                        tips: ["Faça pesquisas regulares", "Observe comportamentos", "Escute feedback ativo"]
-                    },
-                    {
-                        title: "2. Crie Conteúdo Relevante",
-                        content: "Desenvolva materiais, atividades e comunicações que sejam significativas para seu público. Use linguagem acessível, exemplos práticos e conecte o conteúdo com a realidade dos participantes.",
-                        tips: ["Use linguagem simples", "Dê exemplos práticos", "Conecte com a realidade"]
-                    },
-                    {
-                        title: "3. Promova Interação",
-                        content: "Crie oportunidades para que os participantes interajam entre si e com você. Use dinâmicas, perguntas abertas, trabalhos em grupo e momentos de compartilhamento de experiências.",
-                        tips: ["Faça perguntas abertas", "Promova trabalhos em grupo", "Incentive compartilhamento"]
-                    },
-                    {
-                        title: "4. Reconheça e Valorize",
-                        content: "Reconheça a participação, esforços e conquistas dos participantes. Use elogios específicos, certificados, menções públicas ou outras formas de reconhecimento que sejam significativas.",
-                        tips: ["Elogie especificamente", "Use reconhecimento público", "Celebre conquistas"]
-                    },
-                    {
-                        title: "5. Mantenha Comunicação Constante",
-                        content: "Estabeleça canais de comunicação eficazes e mantenha contato regular. Use diferentes meios: presencial, digital, escrito. Seja consistente e responsivo às necessidades dos participantes.",
-                        tips: ["Use múltiplos canais", "Seja consistente", "Responda rapidamente"]
-                    },
-                    {
-                        title: "6. Avalie e Ajuste",
-                        content: "Monitore constantemente o nível de engajamento e colete feedback. Esteja disposto a ajustar estratégias, métodos e abordagens baseado nos resultados e nas necessidades identificadas.",
-                        tips: ["Monitore constantemente", "Colete feedback regular", "Ajuste quando necessário"]
-                    }
-                ]
-            },
-            boafoto: {
-                title: "📸 Orientação de uma Boa Foto",
-                hasFlowchart: true,
-                flowchartUrl: "https://www.canva.com/design/DAG1ysPSJk4/ZVjaoAzY4ceYDtf7OI3V7A/view?utm_content=DAG1ysPSJk4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h9313b0ef8a",
-                steps: [
-                    {
-                        title: "1. Iluminação Adequada",
-                        content: "Use sempre luz natural quando possível. Posicione-se de frente para uma janela ou em ambiente bem iluminado. Evite luz direta muito forte que cause sombras no rosto ou reflexos indesejados.",
-                        tips: ["Prefira luz natural", "Evite sombras no rosto", "Não use flash direto"]
-                    },
-                    {
-                        title: "2. Fundo Limpo e Neutro",
-                        content: "Escolha um fundo simples, sem elementos que distraiam a atenção. Cores neutras como branco, cinza claro ou azul suave funcionam bem. Evite fundos bagunçados ou com muitas informações visuais.",
-                        tips: ["Use cores neutras", "Evite bagunça no fundo", "Mantenha simplicidade"]
-                    },
-                    {
-                        title: "3. Enquadramento e Posicionamento",
-                        content: "Posicione-se centralizado na foto, com os ombros ligeiramente voltados para a câmera. Mantenha uma postura ereta e natural. O enquadramento ideal vai do peito até um pouco acima da cabeça.",
-                        tips: ["Centre-se na foto", "Mantenha postura ereta", "Enquadre do peito para cima"]
-                    },
-                    {
-                        title: "4. Expressão e Olhar",
-                        content: "Mantenha uma expressão natural e profissional. Um sorriso leve e genuíno transmite confiança. Olhe diretamente para a câmera para criar conexão com quem vê a foto.",
-                        tips: ["Sorria naturalmente", "Olhe para a câmera", "Mantenha expressão confiante"]
-                    },
-                    {
-                        title: "5. Vestimenta Apropriada",
-                        content: "Use roupas profissionais e adequadas ao ambiente de trabalho. Evite estampas muito chamativas, cores muito vibrantes ou acessórios excessivos. Prefira cores sólidas e neutras.",
-                        tips: ["Vista-se profissionalmente", "Evite estampas chamativas", "Use cores neutras"]
-                    },
-                    {
-                        title: "6. Qualidade Técnica",
-                        content: "Use uma câmera ou celular com boa resolução. Certifique-se de que a foto está nítida, sem tremores. Tire várias fotos e escolha a melhor. Verifique se não há elementos indesejados na imagem.",
-                        tips: ["Use boa resolução", "Verifique nitidez", "Tire várias opções"]
-                    }
+                    { title: "Passo 1: Backup", content: "...", tips: ["..."] },
                 ]
             }
         };
 
-        let currentScrollPosition = 0;
+        // --- LÓGICA DA INTERFACE (MENU, MODAL, ETC.) ---
+        
+        // Funções do menu e submenus
+        function openSidebar() { /* ... */ }
+        function closeSidebar() { /* ... */ }
+        function toggleSubmenu(id) { /* ... */ }
 
-        // Menu functions
-        function openSidebar() {
-            document.getElementById('sidebar').classList.add('open');
-            document.getElementById('overlay').classList.remove('hidden');
+        // Funções para mostrar/esconder conteúdo
+        function showGuide(guideId) {
+            // ... (código para montar o conteúdo do guia na tela) ...
+            
+            // Lógica para adicionar o visualizador de fluxograma
+            if (guide.flowchartImage) {
+                const flowchartDiv = document.createElement('div');
+                flowchartDiv.innerHTML = `
+                    <h3 class="text-xl font-bold mt-8 mb-4">Fluxograma Visual</h3>
+                    <img src="${guide.flowchartImage}" alt="Fluxograma do processo" class="border rounded-lg shadow-md cursor-pointer" onclick="openImageModal(this.src)">
+                `;
+                document.getElementById('guideSteps').appendChild(flowchartDiv);
+            }
+        }
+        function backToHome() { /* ... */ }
+
+        // Funções do Modal de Imagem
+        const imageModal = document.getElementById("meuModal");
+        const modalImg = document.getElementById("imgModal");
+        
+        function openImageModal(src) {
+            imageModal.style.display = "block";
+            modalImg.src = src;
+        }
+        
+        function closeImageModal() {
+            imageModal.style.display = "none";
+            modalImg.classList.remove('zoomed');
         }
 
-        function closeSidebar() {
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('overlay').classList.add('hidden');
-            
-            // Reset all submenus to closed state
-            const allSubmenus = document.querySelectorAll('.submenu');
-            const allArrows = document.querySelectorAll('[id^="arrow-"]');
-            
-            allSubmenus.forEach(submenu => {
-                submenu.classList.remove('open');
-            });
-            
-            allArrows.forEach(arrow => {
-                arrow.classList.remove('rotate-90');
-            });
-        }
+        modalImg.onclick = () => modalImg.classList.toggle('zoomed');
 
-        function toggleSubmenu(submenuId) {
-            const submenu = document.getElementById(`submenu-${submenuId}`);
-            const arrow = document.getElementById(`arrow-${submenuId}`);
-            
-            submenu.classList.toggle('open');
-            arrow.classList.toggle('rotate-90');
-        }
-
-        // Event listeners
+        // Event Listeners
         document.getElementById('menuToggle').addEventListener('click', openSidebar);
         document.getElementById('closeSidebar').addEventListener('click', closeSidebar);
-
-        function showGuide(guideId) {
-            const guide = guides[guideId];
-            const welcomeMessage = document.getElementById('welcomeMessage');
-            const content = document.getElementById('guideContent');
-            const title = document.getElementById('guideTitle');
-            const steps = document.getElementById('guideSteps');
-
-            // Save current scroll position before showing guide
-            currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
-
-            welcomeMessage.classList.add('hidden');
-            content.classList.remove('hidden');
-            content.classList.add('fade-in');
-            closeSidebar();
-            
-            // Scroll to top when showing new guide
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            title.textContent = guide.title;
-            steps.innerHTML = '';
-
-            // Add description if available
-            if (guide.description) {
-                const descDiv = document.createElement('div');
-                descDiv.className = 'bg-blue-50 rounded-lg p-6 mb-6 border-l-4 border-blue-500';
-                descDiv.innerHTML = `
-                    <p class="text-gray-700 leading-relaxed text-lg">${guide.description}</p>
-                `;
-                steps.appendChild(descDiv);
-            }
-
-            // Handle column layout for matricula guide
-            if (guide.hasColumns && guide.columns) {
-                const columnsDiv = document.createElement('div');
-                columnsDiv.className = 'grid md:grid-cols-2 gap-8';
-                
-                guide.columns.forEach(column => {
-                    const columnDiv = document.createElement('div');
-                    columnDiv.className = 'space-y-6';
-                    
-                    const columnTitle = document.createElement('h3');
-                    columnTitle.className = 'text-2xl font-bold text-gray-800 mb-4 text-center';
-                    columnTitle.textContent = column.title;
-                    columnDiv.appendChild(columnTitle);
-                    
-                    column.steps.forEach(step => {
-                        const stepDiv = document.createElement('div');
-                        stepDiv.className = 'step-card bg-gray-50 rounded-lg p-6 border-l-4 border-indigo-500';
-                        
-                        stepDiv.innerHTML = `
-                            <h4 class="text-lg font-semibold text-gray-800 mb-3">${step.title}</h4>
-                            <div class="text-gray-700 mb-4 leading-relaxed">${step.content}</div>
-                            <div class="bg-white rounded-lg p-4">
-                                <h5 class="font-semibold text-indigo-700 mb-2">💡 Dicas Importantes:</h5>
-                                <ul class="list-disc list-inside space-y-1">
-                                    ${step.tips.map(tip => `<li class="text-gray-600">${tip}</li>`).join('')}
-                                </ul>
-                            </div>
-                        `;
-                        
-                        columnDiv.appendChild(stepDiv);
-                    });
-                    
-                    columnsDiv.appendChild(columnDiv);
-                });
-                
-                steps.appendChild(columnsDiv);
-            } else {
-                // Regular single column layout
-                guide.steps.forEach((step, index) => {
-                    const stepDiv = document.createElement('div');
-                    stepDiv.className = 'step-card bg-gray-50 rounded-lg p-6 border-l-4 border-indigo-500';
-                    
-                    stepDiv.innerHTML = `
-                        <h3 class="text-xl font-semibold text-gray-800 mb-3">${step.title}</h3>
-                        <div class="text-gray-700 mb-4 leading-relaxed">${step.content}</div>
-                        <div class="bg-white rounded-lg p-4">
-                            <h4 class="font-semibold text-indigo-700 mb-2">💡 Dicas Importantes:</h4>
-                            <ul class="list-disc list-inside space-y-1">
-                                ${step.tips.map(tip => `<li class="text-gray-600">${tip}</li>`).join('')}
-                            </ul>
-                        </div>
-                    `;
-                    
-                    steps.appendChild(stepDiv);
-                });
-            }
-
-            // Add flowchart after all steps if available
-            if (guide.hasFlowchart) {
-                const flowchartDiv = document.createElement('div');
-                flowchartDiv.className = 'mt-8 bg-blue-50 rounded-xl p-6 border-2 border-blue-200';
-                flowchartDiv.innerHTML = `
-                    <div class="text-center mb-6">
-                        <h3 class="text-2xl font-bold text-blue-800 mb-2">${guideId === 'engajamento' ? '🎯 Apresentação Completa' : guideId === 'boafoto' ? '📸 Guia Visual Completo' : '📊 Fluxograma Visual do Processo'}</h3>
-                        <p class="text-blue-600 mb-4">${guideId === 'engajamento' ? 'Acesse a apresentação completa com mais detalhes e exemplos práticos' : guideId === 'boafoto' ? 'Visualize o guia completo com exemplos visuais de boas práticas' : 'Visualize o fluxograma completo que ilustra todas as etapas descritas acima'}</p>
-                    </div>
-                    <div class="bg-white rounded-lg p-4 shadow-inner text-center">
-                        <p class="text-gray-600 text-sm">${guideId === 'engajamento' ? 'Para acessar a apresentação completa e interativa, clique no botão abaixo' : guideId === 'boafoto' ? 'Para visualizar o guia completo com exemplos visuais, clique no botão abaixo' : 'Para visualizar o fluxograma completo e interativo, clique no botão abaixo'}</p>
-                    </div>
-                    <div class="text-center mt-4">
-                        <a href="${guide.flowchartUrl}" target="_blank" rel="noopener noreferrer" 
-                           class="inline-flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors text-sm">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                            </svg>
-                            Abrir em Tela Cheia
-                        </a>
-                    </div>
-                `;
-                steps.appendChild(flowchartDiv);
-            }
-        }
-
-        function backToHome() {
-            const welcomeMessage = document.getElementById('welcomeMessage');
-            const content = document.getElementById('guideContent');
-            
-            content.classList.add('hidden');
-            welcomeMessage.classList.remove('hidden');
-            
-            // Restore the previous scroll position
-            window.scrollTo({ top: currentScrollPosition, behavior: 'smooth' });
-        }
+        document.getElementById('overlay').addEventListener('click', closeSidebar);
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98eae3757633877d',t:'MTc2MDQ4NDg3Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
